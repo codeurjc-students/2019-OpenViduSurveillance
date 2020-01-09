@@ -1,0 +1,10 @@
+.stream-container {
+	margin: 5px;
+	width: 40%;
+	height: 20%;
+}
+#addCameras {
+	margin: 5px;
+	float: left;
+	width: 10%;
+}
