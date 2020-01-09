@@ -44,37 +44,6 @@ export class AppComponent implements OnDestroy {
         this.leaveSession();
     }
 
-
-    joinSessionCustom() {
-        this.OV = new OpenVidu();
-
-        this.session = this.OV.initSession();
-
-        this.session.on('streamCreated', (event: StreamEvent) => {
-            let subscriber: Subscriber = this.session.subscribe(event.stream, undefined);
-            this.subscribers.push(subscriber);
-        });
-
-        this.getToken().then(token => {
-            this.session.connect(token).then(() => {
-                let publisher: Publisher = this.OV.initPublisher(undefined, {
-                    audioSource: undefined,
-                    videoSource: undefined,
-                    publishAudio: true,
-                    publishVideo: true,
-                    resolution: '1080x720',
-                    frameRate: 30,
-                    insertMode: 'APPEND',
-                    mirror: true
-                });
-                this.session.publish(publisher);
-                this.mainStreamManager = publisher;
-                this.publisher = publisher;
-            })
-
-        })
-
-    }
     joinSession() {
         console.log('Sesion creada correctamente');
         // --- 1) Get an OpenVidu object ---
@@ -197,7 +166,6 @@ export class AppComponent implements OnDestroy {
 
     createSession(sessionId) {
         return new Promise((resolve, reject) => {
-
             const body = JSON.stringify({customSessionId: sessionId});
             const options = {
                 headers: new HttpHeaders({
@@ -250,11 +218,14 @@ export class AppComponent implements OnDestroy {
                 });
         });
     }
+
     publishIpCamera(sessionId, rtspUri, cameraName, adaptativeBitrate, onlyPlayWhenSubscribers) {
         return new Promise((resolve, reject) => {
 
-            const body = JSON.stringify({ session: sessionId, rtspUri: rtspUri, data: cameraName, adaptativeBitrate: adaptativeBitrate,
-                onlyPlayWithSubscribers: onlyPlayWhenSubscribers });
+            const body = JSON.stringify({
+                session: sessionId, rtspUri: rtspUri, data: cameraName, adaptativeBitrate: adaptativeBitrate,
+                onlyPlayWithSubscribers: onlyPlayWhenSubscribers
+            });
             const options = {
                 headers: new HttpHeaders({
                     'Authorization': 'Basic ' + btoa('OPENVIDUAPP:' + this.OPENVIDU_SERVER_SECRET),
@@ -283,12 +254,6 @@ export class AppComponent implements OnDestroy {
                     resolve(response['id']);
                 });
         });
-    }
-    unsubscribe(session) {
-        if (!!session) {
-            // Leave OpenVidu Session
-            session.disconnect();
-        }
     }
 
 }
