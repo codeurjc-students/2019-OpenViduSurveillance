@@ -256,4 +256,9 @@ export class AppComponent implements OnDestroy {
         });
     }
 
+    communicate() {
+        let url = 'http://localhost:8080/saludo';
+        this.httpClient.get(url, {responseType: 'text'}).subscribe(response => console.log(response), error =>
+        console.log(error));
+    }
 }
