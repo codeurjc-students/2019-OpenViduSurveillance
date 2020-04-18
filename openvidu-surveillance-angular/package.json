@@ -6,14 +6,18 @@
     "start": "ng serve"
   },
   "dependencies": {
+    "@angular/animations": "8.2.14",
+    "@angular/cdk": "~8.2.3",
     "@angular/common": "8.2.14",
     "@angular/compiler": "8.2.14",
     "@angular/core": "8.2.14",
-    "@angular/http": "7.2.15",
     "@angular/forms": "8.2.14",
+    "@angular/http": "7.2.15",
+    "@angular/material": "^8.2.3",
     "@angular/platform-browser": "8.2.14",
     "@angular/platform-browser-dynamic": "8.2.14",
     "core-js": "3.3.2",
+    "hammerjs": "^2.0.8",
     "openvidu-browser": "2.11.0",
     "zone.js": "0.10.2"
   },

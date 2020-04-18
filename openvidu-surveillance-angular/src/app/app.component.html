@@ -6,9 +6,11 @@
                                              true, true)">Camara 1
         </button>
         <button type="button" class="btn" (click)="publishIpCamera(mySessionId,'rtsp://b1.dnsdojo.com:1935/live/sys3.stream','camera1',
-                                             true, true)">Camara 2</button>
+                                             true, true)">Camara 2
+        </button>
         <button type="button" class="btn" (click)="publishIpCamera(mySessionId,'rtsp://91.191.213.49:554/live_mpeg4.sdp','camera1',
-                                             true, true)">Camara 3</button>
+                                             true, true)">Camara 3
+        </button>
         <form class="form-group" (submit)="publishIpCamera(mySessionId,ipURL,'camera1',
                                              true, true)">
             <p>
@@ -38,7 +40,7 @@
                 </p>
             </form>
             <p class="text-center">
-            <button id="communicationButton" (click)="communicate()">Comunicacion con el backend</button>
+                <button id="communicationButton" (click)="communicate()">Comunicacion con el backend</button>
             </p>
         </div>
     </div>
@@ -60,11 +62,9 @@
                 <user-video [streamManager]="sub" (click)="updateMainStreamManager(sub)"></user-video>
             </div>
         </div>
+        <app-session-info [sessionId]="mySessionId"></app-session-info>
     </div>
 </div>
 
-<div class="communication">
-
-</div>
 <app-footer></app-footer>
 
