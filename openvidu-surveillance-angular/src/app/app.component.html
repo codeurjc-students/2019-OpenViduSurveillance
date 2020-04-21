@@ -1,16 +1,16 @@
 <app-header></app-header>
 <div *ngIf="session" id="addCameras" class="">
+    <app-demo-cameras></app-demo-cameras>
     <h4>Add demo cameras</h4>
     <div class="btn-group-vertical" role="group" aria-label="...">
-        <button type="button" class="btn" (click)="publishIpCamera(mySessionId,'rtsp://freja.hiof.no:1935/rtplive/_definst_/hessdalen03.stream','camera1',
-                                             true, true)">Camara 1
+        <button type="button" class="btn" (click)="publishDemoCameras()">DEMO
         </button>
-        <button type="button" class="btn" (click)="publishIpCamera(mySessionId,'rtsp://b1.dnsdojo.com:1935/live/sys3.stream','camera1',
-                                             true, true)">Camara 2
-        </button>
-        <button type="button" class="btn" (click)="publishIpCamera(mySessionId,'rtsp://91.191.213.49:554/live_mpeg4.sdp','camera1',
-                                             true, true)">Camara 3
-        </button>
+<!--        <button type="button" class="btn" (click)="publishIpCamera(mySessionId,'rtsp://170.93.143.139/rtplive/470011e600ef003a004ee33696235daa','camera1',-->
+<!--                                             true, true)">Camara 2-->
+<!--        </button>-->
+<!--        <button type="button" class="btn" (click)="publishIpCamera(mySessionId,'rtsp://91.191.213.49:554/live_mpeg4.sdp','camera1',-->
+<!--                                             true, true)">Camara 3-->
+<!--        </button>-->
         <form class="form-group" (submit)="publishIpCamera(mySessionId,ipURL,'camera1',
                                              true, true)">
             <p>

@@ -191,70 +191,23 @@ export class AppComponent implements OnDestroy {
 
         })
     }
-
-    // createSession(sessionId) {
-    //     return new Promise((resolve, reject) => {
-    //         const body = JSON.stringify({customSessionId: sessionId});
-    //         const options = {
-    //             headers: new HttpHeaders({
-    //                 'Authorization': 'Basic ' + btoa('OPENVIDUAPP:' + this.OPENVIDU_SERVER_SECRET),
-    //                 'Content-Type': 'application/json',
-    //                 'Access-Control-Allow-Origin': '*'
-    //             })
-    //         };
-    //         // return this.httpClient.get
-    //         return this.httpClient.post(this.OPENVIDU_SERVER_URL + '/api/sessions', body, options).pipe(
-    //             catchError(error => {
-    //                 if (error.status === 409) {
-    //                     resolve(sessionId);
-    //                 } else {
-    //                     console.warn('No connection to OpenVidu Server. This may be a certificate error at ' + this.OPENVIDU_SERVER_URL);
-    //                     if (window.confirm('No connection to OpenVidu Server. This may be a certificate error at \"' + this.OPENVIDU_SERVER_URL +
-    //                         '\"\n\nClick OK to navigate and accept it. If no certificate warning is shown, then check that your OpenVidu Server' +
-    //                         'is up and running at "' + this.OPENVIDU_SERVER_URL + '"')) {
-    //                         location.assign(this.OPENVIDU_SERVER_URL + '/accept-certificate');
-    //                     }
-    //                 }
-    //                 return observableThrowError(error);
-    //             })
-    //         )
-    //             .subscribe(response => {
-    //                 console.log(response);
-    //                 resolve(response['id']);
-    //             });
-    //     });
-    // }
-    //
-    // createToken(sessionId)
-    //     :
-    //     Promise<string> {
-    //     return new Promise((resolve, reject) => {
-    //         const body = JSON.stringify({session: sessionId});
-    //         const options = {
-    //             headers: new HttpHeaders({
-    //                 'Authorization': 'Basic ' + btoa('OPENVIDUAPP:' + this.OPENVIDU_SERVER_SECRET),
-    //                 'Content-Type': 'application/json'
-    //             })
-    //         };
-    //         return this.httpClient.post(this.OPENVIDU_SERVER_URL + '/api/tokens', body, options)
-    //             .pipe(
-    //                 catchError(error => {
-    //                     reject(error);
-    //                     return observableThrowError(error);
-    //                 })
-    //             )
-    //             .subscribe(response => {
-    //                 console.log(response);
-    //                 resolve(response['token']);
-    //             });
-    //     });
-    // }
-
+    publishDemoCameras() {
+        const options = {
+            headers: new HttpHeaders({
+                'Authorization': 'Basic ' + btoa('OPENVIDUAPP:' + this.OPENVIDU_SERVER_SECRET),
+                'Content-Type': 'text/plain',
+                'Access-Control-Allow-Origin': '*'
+            })
+        };
+        this.httpClient.post('https://localhost:8080/addDemoCameras', this.mySessionId, options).subscribe(result => {
+            console.log(result);
+        });
+    }
     publishIpCamera(sessionId, rtspUri, cameraName, adaptativeBitrate, onlyPlayWhenSubscribers) {
         return new Promise((resolve, reject) => {
 
             const body = JSON.stringify({
-                session: sessionId, rtspUri: rtspUri, data: cameraName, adaptativeBitrate: adaptativeBitrate,
+                rtspUri: rtspUri, data: cameraName, adaptativeBitrate: adaptativeBitrate,
                 onlyPlayWithSubscribers: onlyPlayWhenSubscribers
             });
             const options = {
@@ -264,7 +217,9 @@ export class AppComponent implements OnDestroy {
                     'Access-Control-Allow-Origin': '*'
                 })
             };
-            return this.httpClient.post(this.OPENVIDU_SERVER_URL + '/api/sessions/' + sessionId + '/connection', body, options).pipe(
+            // return this.httpClient.post(this.OPENVIDU_SERVER_URL + '/api/sessions/' + sessionId + '/connection', body, options)
+            return this.httpClient.post('https://localhost:8080/session/' + sessionId + '/addIpCamera', body, options)
+                .pipe(
                 catchError(error => {
                     reject(error)
                     if (error.status === 409) {
