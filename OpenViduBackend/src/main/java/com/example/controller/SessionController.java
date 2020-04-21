@@ -1,5 +1,8 @@
 package com.example.controller;
 
+import com.example.entity.IpCamera;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
@@ -33,11 +36,11 @@ import java.util.concurrent.TimeUnit;
 
 @CrossOrigin
 @RestController
-public class Controller {
-    private  CloseableHttpClient httpClient;
+public class SessionController {
+    private CloseableHttpClient httpClient;
 
     @PostConstruct
-    private void init(){
+    private void init() {
         TrustStrategy trustStrategy = new TrustStrategy() {
             @Override
             public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
@@ -60,6 +63,7 @@ public class Controller {
                 .setSSLContext(sslContext).build();
 
     }
+
     @GetMapping("/saludo")
     public String index() {
         return "Funcionando";
@@ -73,7 +77,7 @@ public class Controller {
         request.setHeader(HttpHeaders.AUTHORIZATION,
                 "Basic " + Base64.getEncoder().encodeToString(("OPENVIDUAPP:" + "MY_SECRET").getBytes()));
         request.addHeader("Content-Type", "application/x-www-form-urlencoded");
-        try (CloseableHttpResponse response = httpClient.execute(request)){
+        try (CloseableHttpResponse response = httpClient.execute(request)) {
             System.out.println(response.getStatusLine().toString());
 
             HttpEntity entity = response.getEntity();
@@ -91,7 +95,7 @@ public class Controller {
     }
 
     @GetMapping("/newSession/{sessionId}")
-    public String start(@PathVariable String sessionId ) throws IOException {
+    public String start(@PathVariable String sessionId) throws IOException {
 //        "Duplicate all methods to make both request at the same time"
         HttpPost requestSession = new HttpPost("https://localhost:4443/api/sessions");
         HttpPost requestToken = new HttpPost("https://localhost:4443/api/tokens");
@@ -112,7 +116,7 @@ public class Controller {
 
         requestToken.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
         requestSession.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
-        try (CloseableHttpResponse response = httpClient.execute(requestSession)){
+        try (CloseableHttpResponse response = httpClient.execute(requestSession)) {
             System.out.println(response.getStatusLine().toString());
 
             HttpEntity entity = response.getEntity();
@@ -124,7 +128,7 @@ public class Controller {
                 System.out.println(result);
             }
         }
-        try (CloseableHttpResponse response = httpClient.execute(requestToken)){
+        try (CloseableHttpResponse response = httpClient.execute(requestToken)) {
             System.out.println(response.getStatusLine().toString());
 
             HttpEntity entity = response.getEntity();
@@ -141,8 +145,42 @@ public class Controller {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "nulo";
+        return null;
     }
 
+    @PostMapping("/session/{sessionId}/addIpCamera")
+    public String newCamera(@PathVariable String sessionId, @RequestBody IpCamera ipCamera) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        HttpPost request = new HttpPost("https://localhost:4443/api/sessions/" + sessionId + "/connection");
+        request.setHeader(HttpHeaders.AUTHORIZATION,
+                "Basic " + Base64.getEncoder().encodeToString(("OPENVIDUAPP:" + "MY_SECRET").getBytes()));
+        request.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
+
+        try {
+            String json = objectMapper.writeValueAsString(ipCamera);
+            System.out.println(json);
+            request.setEntity(new StringEntity(json));
+            try (CloseableHttpResponse response = httpClient.execute(request)) {
+                System.out.println(response.getStatusLine().toString());
+
+                HttpEntity entity = response.getEntity();
+                Header headers = entity.getContentType();
+                System.out.println(headers);
+                if (entity != null) {
+                    // return it as a String
+                    String result = EntityUtils.toString(entity);
+                    System.out.println(result);
+                    return result;
+                }
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (JsonProcessingException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }
