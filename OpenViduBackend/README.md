@@ -3,6 +3,18 @@
 This is the Spring boot backend for the frontend Angular Openvidu App.
 To run this just open the project as a normal Spring app.
 
+##Configuration
+
+I use this with a MySQL database, so you will need to configue MySQL in case you want to use this backend like me.
+
+Remember to add this to you application.properties>
+```
+spring.jpa.hibernate.ddl-auto=update
+spring.datasource.url=jdbc:mysql://localhost:3306/YOUR_DB_NAME?createDatabaseIfNotExist=true
+spring.datasource.username=YOUR_DB_USERNAME
+spring.datasource.password=YOUR_DB_PASSWORD
+```
+
 ## Methods
 
 ### Get ("/saludo")
