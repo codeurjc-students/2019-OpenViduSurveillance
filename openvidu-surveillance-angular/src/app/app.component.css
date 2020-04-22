@@ -1,15 +1,45 @@
-.stream-container {
-	margin: 5px;
-	width: 40%;
-	height: 20%;
+/*.stream-container {*/
+/*	margin: 5px;*/
+/*	width: 40%;*/
+/*	height: 20%;*/
+/*}*/
+/*#addCameras {*/
+/*	margin: 5px;*/
+/*	float: left;*/
+/*	width: 10%;*/
+/*}*/
+
+/*#communicationButton {*/
+/*	margin-top: 15px;*/
+/*	padding: 5px;*/
+/*}*/
+.total-container{
+    display: grid;
+    grid-template-rows: 0.5fr 12fr 0.8fr;
 }
-#addCameras {
-	margin: 5px;
-	float: left;
-	width: 10%;
+.main-container{
+    display: grid;
+    height: 100%;
+    grid-template-columns: 1.2fr 4fr 1.2fr;
+    /*border-top: 2px solid black;*/
+
+}
+div h3 {
+    text-align: center;
+}
+.demo-cameras {
+    /*border-right: 2px solid black;*/
+    padding: 0 15px 0 15px;
+    position: relative;
+
 }
 
-#communicationButton {
-	margin-top: 15px;
-	padding: 5px;
+.main-camera {
+    margin: 0 auto;
+}
+
+.list-cameras {
+    /*border-left: 2px solid black;*/
+    padding: 0 15px 0 15px;
+    position: relative;
 }

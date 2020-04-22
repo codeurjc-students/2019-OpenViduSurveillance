@@ -6,6 +6,7 @@ import {catchError} from 'rxjs/operators';
 import {error} from '@angular/compiler/src/util';
 import {resolve} from '@angular/compiler-cli/src/ngtsc/file_system';
 import {Observable, of} from 'rxjs';
+import {CameraService} from "./camera.service";
 
 
 @Component({
@@ -32,7 +33,8 @@ export class AppComponent implements OnDestroy {
     // updated by click event in UserVideoComponent children
     mainStreamManager: StreamManager;
 
-    constructor(private httpClient: HttpClient) {
+    constructor(private httpClient: HttpClient,
+        private cameraService: CameraService) {
         this.generateParticipantInfo();
     }
 

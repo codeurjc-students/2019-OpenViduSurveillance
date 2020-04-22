@@ -11,6 +11,8 @@ import {FooterComponent} from './footer/footer.component';
 import {SessionInfoComponent} from './session-info/session-info.component';
 import {MatListModule} from '@angular/material/list';
 import {MatCardModule} from '@angular/material/card';
+import { DemoCamerasComponent } from './demo-cameras/demo-cameras.component';
+import { MainCameraComponent } from './main-camera/main-camera.component';
 
 
 @NgModule({
@@ -21,6 +23,8 @@ import {MatCardModule} from '@angular/material/card';
         HeaderComponent,
         FooterComponent,
         SessionInfoComponent,
+        DemoCamerasComponent,
+        MainCameraComponent,
     ],
     imports: [
         MatCardModule,

@@ -219,6 +219,14 @@ video {
 	height: 180px;
 }
 
+.addCameraButton {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: 0 auto 10px auto;
+
+}
 
 /* xs ans md screen resolutions*/
 

@@ -1,31 +1,31 @@
-<app-header></app-header>
-<div *ngIf="session" id="addCameras" class="">
-    <app-demo-cameras></app-demo-cameras>
-    <h4>Add demo cameras</h4>
-    <div class="btn-group-vertical" role="group" aria-label="...">
-        <button type="button" class="btn" (click)="publishDemoCameras()">DEMO
-        </button>
-<!--        <button type="button" class="btn" (click)="publishIpCamera(mySessionId,'rtsp://170.93.143.139/rtplive/470011e600ef003a004ee33696235daa','camera1',-->
-<!--                                             true, true)">Camara 2-->
+
+<!--<div *ngIf="session" id="addCameras" class="">-->
+<!--    <app-demo-cameras></app-demo-cameras>-->
+<!--    <h4>Add demo cameras</h4>-->
+<!--    <div class="btn-group-vertical" role="group" aria-label="...">-->
+<!--        <button type="button" class="btn"-->
+<!--                (click)="publishDemoCameras(); publishIpCamera(mySessionId,'rtsp://freja.hiof.no:1935/rtplive/_definst_/hessdalen03.stream','camera1',-->
+<!--                true, true); publishIpCamera(mySessionId,'rtsp://91.191.213.49:554/live_mpeg4.sdp','camera2',-->
+<!--                true, true)">-->
+<!--            DEMO-->
 <!--        </button>-->
-<!--        <button type="button" class="btn" (click)="publishIpCamera(mySessionId,'rtsp://91.191.213.49:554/live_mpeg4.sdp','camera1',-->
-<!--                                             true, true)">Camara 3-->
-<!--        </button>-->
-        <form class="form-group" (submit)="publishIpCamera(mySessionId,ipURL,'camera1',
-                                             true, true)">
-            <p>
-                <label>Custom camera</label>
-                <input class="form-control" type="text" id="ipURL" name="sessionId" [(ngModel)]="ipURL"
-                       required>
-            </p>
-            <p class="text-center">
-                <input class="btn btn-lg btn-success" type="submit" name="commit" value="Add camera">
-            </p>
-        </form>
-    </div>
-</div>
+<!--        <form class="form-group" (submit)="publishIpCamera(mySessionId,ipURL,'camera1',-->
+<!--                                             true, true)">-->
+<!--            <p>-->
+<!--                <label>Custom camera</label>-->
+<!--                <input class="form-control" type="text" id="ipURL" name="sessionId" [(ngModel)]="ipURL"-->
+<!--                       required>-->
+<!--            </p>-->
+<!--            <p class="text-center">-->
+<!--                <input class="btn btn-lg btn-success" type="submit" name="commit" value="Add camera">-->
+<!--            </p>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--</div>-->
+<div *ngIf="!session" id="join">
+    <app-header></app-header>
 <div id="main-container" class="container" xmlns:rtsp="http://www.w3.org/1999/xhtml">
-    <div *ngIf="!session" id="join">
+
         <div id="img-div"><img src="assets/images/openvidu_grey_bg_transp_cropped.png"/></div>
         <div id="join-dialog" class="jumbotron vertical-center">
             <h1>Join a video session</h1>
@@ -44,27 +44,45 @@
             </p>
         </div>
     </div>
-
-    <div *ngIf="session" id="session">
-        <div id="session-header">
-            <h1 id="session-title">{{mySessionId}}</h1>
-            <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" (click)="leaveSession()"
-                   value="Leave session">
-        </div>
-        <div *ngIf="mainStreamManager" id="main-video" class="col-md-6">
-            <user-video [streamManager]="mainStreamManager"></user-video>
-        </div>
-        <div id="video-container" class="col-md-6">
-            <div *ngIf="publisher" class="stream-container col-md-6 col-xs-6">
-                <user-video [streamManager]="publisher" (click)="updateMainStreamManager(publisher)"></user-video>
-            </div>
-            <div *ngFor="let sub of subscribers" class="stream-container col-md-6 col-xs-6">
-                <user-video [streamManager]="sub" (click)="updateMainStreamManager(sub)"></user-video>
-            </div>
-        </div>
-        <app-session-info [sessionId]="mySessionId"></app-session-info>
-    </div>
 </div>
 
-<app-footer></app-footer>
-
+<!--&lt;!&ndash;    <div *ngIf="session" id="session">&ndash;&gt;-->
+<!--        <div id="session-header">-->
+<!--            <h1 id="session-title">{{mySessionId}}</h1>-->
+<!--            <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" (click)="leaveSession()"-->
+<!--                   value="Leave session">-->
+<!--        </div>-->
+<!--        <div *ngIf="mainStreamManager" id="main-video" class="col-md-6">-->
+<!--            <user-video [streamManager]="mainStreamManager"></user-video>-->
+<!--        </div>-->
+<!--        <div id="video-container" class="col-md-6">-->
+<!--            <div *ngIf="publisher" class="stream-container col-md-6 col-xs-6">-->
+<!--                <user-video [streamManager]="publisher" (click)="updateMainStreamManager(publisher)"></user-video>-->
+<!--            </div>-->
+<!--            <div *ngFor="let sub of subscribers" class="stream-container col-md-6 col-xs-6">-->
+<!--                <user-video [streamManager]="sub" (click)="updateMainStreamManager(sub)"></user-video>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <app-session-info [sessionId]="mySessionId"></app-session-info>-->
+<!--    </div>-->
+<!--</div>-->
+<div *ngIf="session">
+    <div class="total-container">
+        <app-header></app-header>
+        <div class="main-container">
+            <div class="demo-cameras">
+                <h3>Demo cameras</h3>
+                <app-demo-cameras [sessionId]="mySessionId"></app-demo-cameras>
+            </div>
+            <div class="main-camera">
+                <h3>OpenVidu Surveillance</h3>
+                <app-main-camera [mainStreamManager]="cameraService.mainStreamManager"></app-main-camera>
+            </div>
+            <div class="list-cameras">
+                <h3>Cameras</h3>
+                <app-session-info [subscribers]="subscribers" [sessionId]="mySessionId"></app-session-info>
+            </div>
+        </div>
+        <app-footer></app-footer>
+    </div>
+</div>

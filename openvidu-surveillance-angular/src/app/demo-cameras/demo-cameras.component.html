@@ -1,0 +1,8 @@
+<button (click)="cameraService.publishDemoCameras(sessionId);
+ cameraService.publishIpCamera(sessionId,
+ 'rtsp://freja.hiof.no:1935/rtplive/_definst_/hessdalen03.stream',
+ 'camera1',true, true);
+  cameraService.publishIpCamera(sessionId,'rtsp://91.191.213.49:554/live_mpeg4.sdp',
+  'camera2',true, true)" class="addCameraButton">
+    Add demo cameras
+</button>
