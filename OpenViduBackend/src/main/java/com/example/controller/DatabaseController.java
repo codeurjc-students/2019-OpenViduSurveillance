@@ -31,8 +31,8 @@ public class DatabaseController {
 
     @PostMapping("/addDemoCameras")
     public void addDemoCameras(@RequestBody String sessionName){
-        addCamera(" rtsp://freja.hiof.no:1935/rtplive/_definst_/hessdalen03.stream","Hessdalen",sessionName);
-        addCamera("rtsp://170.93.143.139/rtplive/470011e600ef003a004ee33696235daa","Bulgaria",sessionName);
+        addCamera("rtsp://freja.hiof.no:1935/rtplive/_definst_/hessdalen03.stream","Hessdalen",sessionName);
+        addCamera("rtsp://170.93.143.139/rtplive/470011e600ef003a004ee33696235daa","Highway",sessionName);
 
     }
 }

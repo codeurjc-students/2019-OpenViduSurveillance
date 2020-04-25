@@ -11,10 +11,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories("com.example.repository")
 @ComponentScan(basePackageClasses = SessionController.class)
 @EntityScan("com.example.entity")
-public class DemoApplication {
+public class Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
 
 }

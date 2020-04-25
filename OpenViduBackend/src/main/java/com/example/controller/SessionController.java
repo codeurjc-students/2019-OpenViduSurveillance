@@ -69,7 +69,6 @@ public class SessionController {
         return "Funcionando";
     }
 
-
     @GetMapping("/session/{sessionId}")
     public String sessionInfo(@PathVariable String sessionId) throws IOException {
 

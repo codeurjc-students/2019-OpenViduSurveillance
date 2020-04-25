@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Session} from '../session';
 import {SessionInfoService} from '../session-info.service';
 import {StreamManager} from 'openvidu-browser';
-import {CameraService} from "../camera.service";
+import {CameraService} from '../camera.service';
 
 
 @Component({
@@ -11,7 +11,8 @@ import {CameraService} from "../camera.service";
     styleUrls: ['./session-info.component.css']
 })
 export class SessionInfoComponent implements OnInit {
-
+    cameraName: string;
+    ipURL: string;
     @Input() sessionId: string;
     session: Session;
     @Input() subscribers: StreamManager[] = [];

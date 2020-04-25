@@ -4,3 +4,8 @@
 #div info{
     float:left;
 }
+
+.miniatures {
+    height: 70%;
+    overflow-y: scroll;
+}

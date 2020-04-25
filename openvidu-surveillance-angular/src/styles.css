@@ -182,8 +182,10 @@ a:hover .demo-logo {
 
 video {
 	width: 100%;
-	height: auto;
+	max-width: 90%;
+	height: 20%;
 }
+
 
 #main-video p {
 	position: absolute;
@@ -200,6 +202,8 @@ video {
 
 #main-video video {
 	cursor: initial;
+	width: auto;
+	height: auto;
 }
 
 #session img {

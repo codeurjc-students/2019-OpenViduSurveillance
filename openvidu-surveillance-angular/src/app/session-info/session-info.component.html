@@ -7,8 +7,30 @@
 <!--        </div>-->
 <!--    </div>-->
 <!--</div>-->
-            <div *ngFor="let sub of subscribers" class="stream-container col-md-6 col-xs-6">
-                <user-video [streamManager]="sub" (click)="updateMainStreamManager(sub)"></user-video>
-            </div>
+<div class="miniatures">
+    <div *ngFor="let sub of subscribers" class="stream-container col-md-6 col-xs-6">
+        <user-video [streamManager]="sub" (click)="updateMainStreamManager(sub)"></user-video>
+    </div>
+</div>
+<div>
 
-<button class="addCameraButton">Add camera</button>
+    <form class="form-group addCameraButton" (submit)="cameraService.publishIpCamera(sessionId,ipURL,cameraName,
+                                             true, true)">
+        <p>
+            <label>Custom camera</label>
+            <input class="form-control" type="text" id="ipURL" name="sessionId" [(ngModel)]="ipURL"
+                   required>
+        </p>
+        <p>
+            <label>Camera name</label>
+            <input class="form-control" type="text" name="cameraName" [(ngModel)]="cameraName"
+                   [defaultValue]="cameraName">
+        </p>
+        <p class="text-center">
+            <input class="btn btn-lg btn-success" type="submit" name="commit" value="Add camera">
+        </p>
+    </form>
+
+</div>
+
+
