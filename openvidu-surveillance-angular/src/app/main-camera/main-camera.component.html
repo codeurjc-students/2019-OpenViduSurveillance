@@ -1,3 +1,4 @@
         <div *ngIf="mainStreamManager" id="main-video" class="col-md-6">
-            <user-video [streamManager]="cameraService.mainStreamManager"></user-video>
+            <user-video [cameraName]="cameraService.mainStreamManager.stream.connection.data"
+                        [streamManager]="cameraService.mainStreamManager"></user-video>
         </div>

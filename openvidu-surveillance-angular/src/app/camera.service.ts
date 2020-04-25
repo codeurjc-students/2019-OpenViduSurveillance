@@ -11,7 +11,6 @@ export class CameraService {
   private OPENVIDU_SERVER_SECRET = 'MY_SECRET';
   private OPENVIDU_SERVER_URL = 'https://localhost:8080/';
   public mainStreamManager: StreamManager;
-
   constructor(public httpClient: HttpClient) { }
 
   publishDemoCameras(mySessionId: string) {

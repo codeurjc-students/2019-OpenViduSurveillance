@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {AfterViewInit, Component, Input} from '@angular/core';
 import { StreamManager } from 'openvidu-browser';
 
 @Component({
@@ -25,15 +25,19 @@ import { StreamManager } from 'openvidu-browser';
     template: `
         <div>
             <ov-video [streamManager]="streamManager"></ov-video>
-            <div><p>Camera name</p></div>
+            <div><p>{{cameraName}}</p></div>
         </div>`
 })
-export class UserVideoComponent {
+export class UserVideoComponent implements AfterViewInit{
 
     @Input()
     streamManager: StreamManager;
-
+    @Input()
+    cameraName: string;
     getNicknameTag() { // Gets the nickName of the user
         return JSON.parse(this.streamManager.stream.connection.data).clientData;
+    }
+    ngAfterViewInit() {
+        this.cameraName = this.streamManager.stream.connection.data;
     }
 }
