@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 
 import {AppComponent} from './app.component';
@@ -13,6 +13,8 @@ import {MatListModule} from '@angular/material/list';
 import {MatCardModule} from '@angular/material/card';
 import { DemoCamerasComponent } from './demo-cameras/demo-cameras.component';
 import { MainCameraComponent } from './main-camera/main-camera.component';
+import {MatSelectModule} from "@angular/material/select";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 
 @NgModule({
@@ -30,8 +32,11 @@ import { MainCameraComponent } from './main-camera/main-camera.component';
         MatCardModule,
         MatListModule,
         BrowserModule,
+        BrowserAnimationsModule,
         FormsModule,
-        HttpClientModule
+        HttpClientModule,
+        ReactiveFormsModule,
+        MatSelectModule
     ],
     providers: [],
     bootstrap: [AppComponent]
