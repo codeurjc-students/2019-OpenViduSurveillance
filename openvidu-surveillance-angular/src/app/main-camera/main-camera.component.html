@@ -1,4 +1,23 @@
-        <div *ngIf="mainStreamManager" id="main-video" class="col-md-6">
-            <user-video [cameraName]="cameraService.mainStreamManager.stream.connection.data"
-                        [streamManager]="cameraService.mainStreamManager"></user-video>
-        </div>
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+<div *ngIf="mainStreamManager" id="main-video" class="col-md-6">
+    <user-video [cameraName]="cameraService.mainStreamManager.stream.connection.data"
+                [streamManager]="cameraService.mainStreamManager"></user-video>
+</div>
+
+<div *ngIf="!ptz" class="ptzControls">
+    <span class="material-icons" (click)="move('left')">
+        arrow_back
+    </span>
+    <span class="material-icons" (click)="move('down')">
+        arrow_downward
+    </span>
+    <span class="material-icons" (click)="move('up')">
+        arrow_upward
+    </span>
+    <span class="material-icons" (click)="move('right')">
+        arrow_forward
+    </span>
+</div>
+<button (click)="ptzAvailable()">PTZ</button>
