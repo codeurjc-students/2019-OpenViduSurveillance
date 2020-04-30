@@ -27,4 +27,24 @@ public class Camera {
         this.url = url;
     }
 
+    public Camera(String url, String cameraName){
+        this.url = url;
+        this.camera = cameraName;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getSession() {
+        return session;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public String getCamera() {
+        return camera;
+    }
 }

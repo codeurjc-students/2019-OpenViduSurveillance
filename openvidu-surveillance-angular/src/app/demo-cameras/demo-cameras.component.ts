@@ -1,42 +1,37 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {CameraService} from '../camera.service';
-// import { onvifDevices$ } from 'camera-probe'
+import {FormControl, FormGroup} from '@angular/forms';
+import {CameraDevice} from "../camera-device";
 
 @Component({
-  selector: 'app-demo-cameras',
-  templateUrl: './demo-cameras.component.html',
-  styleUrls: ['./demo-cameras.component.css']
+    selector: 'app-demo-cameras',
+    templateUrl: './demo-cameras.component.html',
+    styleUrls: ['./demo-cameras.component.css']
 })
 export class DemoCamerasComponent implements OnInit {
-  @Input() sessionId: string;
-  constructor(private cameraService: CameraService) { }
+    devices: CameraDevice[];
+    @Input() sessionId: string;
+    networkDevicesIp: string[];
+    form = new FormGroup({
+        devices: new FormControl(this.cameraService.availableIpCameras)
+    })
+    selectedDevice: CameraDevice;
 
-  ngOnInit() {
-  }
+    constructor(private cameraService: CameraService) {
+        this.devices = cameraService.availableIpCameras;
+    }
 
-  addDemoCameras() {
-    this.cameraService.publishDemoCameras(this.sessionId);
-  }
+    ngOnInit() {
 
-  // discoverCameras() {
-  //   const subscription = onvifDevices$().subscribe(console.log)
-  // }
-//   discoverCameras() {
-//     const onvif = require('node-onvif');
-//
-//     console.log('Start the discovery process.');
-// // Find the ONVIF network cameras.
-// // It will take about 3 seconds.
-//     onvif.startProbe().then((device_info_list) => {
-//       console.log(device_info_list.length + ' devices were found.');
-// // Show the device name and the URL of the end point.
-//       device_info_list.forEach((info) => {
-//         console.log('- ' + info.urn);
-//         console.log('  - ' + info.name);
-//         console.log('  - ' + info.xaddrs[0]);
-//       });
-//     }).catch((error) => {
-//       console.error(error);
-//     });
-//   }
+    }
+
+    addDemoCameras() {
+        this.cameraService.publishDemoCameras(this.sessionId);
+    }
+
+    setDevice(device: CameraDevice) {
+        this.selectedDevice = device;
+        console.log(device);
+    }
+
 }
