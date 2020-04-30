@@ -1,8 +1,18 @@
 package com.example.controller;
 
+import java.net.ConnectException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+import be.teletask.onvif.DiscoveryManager;
+import be.teletask.onvif.listeners.DiscoveryListener;
+import be.teletask.onvif.models.Device;
+
 import com.example.entity.IpCamera;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.onvif.soap.OnvifDevice;
+import de.onvif.soap.devices.PtzDevices;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
@@ -19,10 +29,13 @@ import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.ssl.TrustStrategy;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
+import org.onvif.ver10.schema.FloatRange;
+import org.onvif.ver10.schema.Profile;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import javax.net.ssl.SSLContext;
+import javax.xml.soap.SOAPException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
@@ -31,8 +44,8 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.Base64;
-import java.util.concurrent.TimeUnit;
+import java.util.List;
+import java.util.concurrent.*;
 
 @CrossOrigin
 @RestController
@@ -182,4 +195,44 @@ public class SessionController {
         return null;
     }
 
+    @GetMapping("/discover/cam")
+    public void discoverCam() throws SOAPException, ConnectException {
+        OnvifDevice nvt = new OnvifDevice("192.168.1.137:8081", "admin", "password");
+
+        List<Profile> profiles = nvt.getDevices().getProfiles();
+        String profileToken = profiles.get(0).getToken();
+
+        PtzDevices ptzDevices = nvt.getPtz(); // get PTZ Devices
+        System.out.println(ptzDevices.getStatus(profileToken));
+        FloatRange panRange = ptzDevices.getPanSpaces(profileToken);
+        FloatRange tiltRange = ptzDevices.getTiltSpaces(profileToken);
+        System.out.println("Max panrange : " + panRange.getMax() + " Max tiltrange: " + tiltRange.getMax());
+        System.out.println(ptzDevices.isContinuosMoveSupported(profileToken));
+        System.out.println(ptzDevices.isAbsoluteMoveSupported(profileToken));
+        System.out.println(ptzDevices.isPtzOperationsSupported(profileToken));
+        for (int i = 0; i <= 5; i++)
+            ptzDevices.absoluteMove(profileToken, (float) 1, (float) 1, 1);
+    }
+
+    @PostMapping("/ptz/{hostIp}")
+    public boolean ptz(@RequestParam String user, @RequestParam String password, @PathVariable String hostIp) throws SOAPException, ConnectException {
+        String ipUrl = hostIp + ":8081";
+        OnvifDevice onvifDevice = new OnvifDevice(ipUrl, user, password);
+        List<Profile> profiles = onvifDevice.getDevices().getProfiles();
+        String profileToken = profiles.get(0).getToken();
+        return onvifDevice.getPtz().isPtzOperationsSupported(profileToken);
+    }
+
+    @PostMapping("/ptz/{hostIp}/{direction}")
+    public void ptzMovement(@RequestParam String user, @RequestParam String password, @PathVariable String hostIp, @PathVariable String direction) throws SOAPException, ConnectException {
+        String ipUrl = hostIp + ":8081";
+        OnvifDevice onvifDevice = new OnvifDevice(ipUrl, user, password);
+        List<Profile> profiles = onvifDevice.getDevices().getProfiles();
+        String profileToken = profiles.get(0).getToken();
+        PtzDevices ptzDevices = onvifDevice.getPtz(); // get PTZ Devices
+        if (direction == "up") {
+            for (int i = 0; i <= 5; i++)
+                ptzDevices.absoluteMove(profileToken, (float) 1, (float) 1, 1);
+        }
+    }
 }
