@@ -6,7 +6,17 @@
   'camera2',true, true)" class="addCameraButton">
     Add demo cameras
 </button>
+<mat-form-field>
+    <mat-label>Select an option</mat-label>
+    <mat-select [(value)]="selectedDevice">
+        <mat-option *ngFor="let device of devices" [value]="device.url">{{device.url}}</mat-option>
+        <mat-option value="option3">Option 3</mat-option>
+    </mat-select>
+</mat-form-field>
 
-<!--<button (click)="discoverCameras()">Discover cameras</button>-->
+<p>You selected: {{selectedDevice}}</p>
 
+<button (click)="cameraService.publishIpCamera(sessionId,
+'rtsp://admin:admin@' + selectedDevice + '/11',selectedDevice,true,
+true)">Add selected camera</button>
 
