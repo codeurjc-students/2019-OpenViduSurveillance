@@ -17,7 +17,12 @@
     <properties>
         <java.version>1.8</java.version>
     </properties>
-
+    <repositories>
+        <repository>
+            <id>Jcenter</id>
+            <url>https://jcenter.bintray.com/</url>
+        </repository>
+    </repositories>
     <dependencies>
 
         <dependency>
@@ -77,6 +82,13 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/be.teletask.onvif/onvif -->
+        <dependency>
+            <groupId>be.teletask.onvif</groupId>
+            <artifactId>onvif</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+
     </dependencies>
 
     <build>
