@@ -1,5 +1,6 @@
 # 2019-OpenViduSurveillance
-
+### Medium
+To see how i worked in this app step by step, check my [Medium page ](https://medium.com/@igort142)
 ## Phase 1 - Experimental / exploratory phase
 
 In this project we are going to develop a web app in order to manage and connect IP cameras using the RTSP and ONVIF protocols.
