@@ -1,37 +1,28 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {CameraService} from '../camera.service';
 import {FormControl, FormGroup} from '@angular/forms';
-import {CameraDevice} from "../camera-device";
+import {CameraDevice} from '../camera-device';
 
 @Component({
     selector: 'app-demo-cameras',
-    templateUrl: './demo-cameras.component.html',
-    styleUrls: ['./demo-cameras.component.css']
+    templateUrl: './administration-panel.component.html',
+    styleUrls: ['./administration-panel.component.css']
 })
-export class DemoCamerasComponent implements OnInit {
+export class AdministrationPanelComponent {
     devices: CameraDevice[];
     @Input() sessionId: string;
-    networkDevicesIp: string[];
+
     form = new FormGroup({
         devices: new FormControl(this.cameraService.availableIpCameras)
     })
     selectedDevice: CameraDevice;
 
-    constructor(private cameraService: CameraService) {
+    constructor(public cameraService: CameraService) {
         this.devices = cameraService.availableIpCameras;
-    }
-
-    ngOnInit() {
-
     }
 
     addDemoCameras() {
         this.cameraService.publishDemoCameras(this.sessionId);
-    }
-
-    setDevice(device: CameraDevice) {
-        this.selectedDevice = device;
-        console.log(device);
     }
 
 }
