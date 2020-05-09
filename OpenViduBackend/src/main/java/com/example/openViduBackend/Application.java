@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.openViduBackend;
 
 import com.example.controller.SessionController;
 import org.springframework.boot.SpringApplication;
