@@ -6,8 +6,13 @@ public class IpCamera {
     public Boolean adaptativeBitrate;
     public Boolean onlyPlayWhenSubscribers;
 
-    public IpCamera(String rtspUri) {
+    public IpCamera(){ }
+
+    public IpCamera(String rtspUri, String data) {
         this.rtspUri = rtspUri;
+        this.data = data;
+        this.adaptativeBitrate = true;
+        this.onlyPlayWhenSubscribers = true;
     }
 
     public IpCamera(String rtspUri, String data, Boolean adaptativeBitrate, Boolean onlyPlayWhenSubscribers) {
