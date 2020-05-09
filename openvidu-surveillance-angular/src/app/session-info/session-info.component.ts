@@ -18,7 +18,7 @@ export class SessionInfoComponent implements OnInit {
     @Input() subscribers: StreamManager[] = [];
 
     constructor(public sessionInfoService: SessionInfoService,
-                private cameraService: CameraService) {
+                public cameraService: CameraService) {
     }
 
     ngOnInit() {

@@ -39,21 +39,6 @@ nav i.fa:hover {
     color: #a9a9a9;
 }
 
-#main-container {
-    padding-bottom: 80px;
-}
-
-.vertical-center {
-    position: absolute;
-    top: 56%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.horizontal-center {
-    margin: 0 auto;
-}
-
 .form-control {
     color: #0088aa;
     font-weight: bold;
@@ -65,54 +50,17 @@ nav i.fa:hover {
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(0, 136, 170, 0.6);
 }
 
-input.btn {
-    font-weight: bold;
+/*noinspection CssUnusedSymbol,CssUnusedSymbol*/
 
-}
+/*noinspection CssUnusedSymbol,CssUnusedSymbol*/
 
-.btn {
-    font-weight: bold !important;
-    margin-bottom : 5px;
-}
+/*noinspection CssUnusedSymbol,CssUnusedSymbol*/
 
-.btn-success {
-    background-color: #06d362 !important;
-    border-color: #06d362;
-}
+/*noinspection CssUnusedSymbol,CssUnusedSymbol*/
 
-.btn-success:hover {
-    background-color: #1abd61 !important;
-    border-color: #1abd61;
-}
+/*noinspection CssUnusedSymbol,CssUnusedSymbol*/
 
-.footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 60px;
-    background-color: #4d4d4d;
-}
-
-.footer .text-muted {
-    margin: 20px 0;
-    float: left;
-    color: #ccc;
-}
-
-.openvidu-logo {
-    height: 35px;
-    float: right;
-    margin: 12px 0;
-    -webkit-transition: all 0.1s ease-in-out;
-    -moz-transition: all 0.1s ease-in-out;
-    -o-transition: all 0.1s ease-in-out;
-    transition: all 0.1s ease-in-out;
-}
-
-.openvidu-logo:hover {
-    -webkit-filter: grayscale(0.5);
-    filter: grayscale(0.5);
-}
+/*noinspection CssUnusedSymbol,CssUnusedSymbol*/
 
 .demo-logo {
     margin: 0;
@@ -132,11 +80,6 @@ a:hover .demo-logo {
     text-align: center;
 }
 
-#img-div {
-    text-align: center;
-    margin-top: 3vh;
-}
-
 #img-div img {
     height: 15%;
 }
@@ -145,22 +88,13 @@ a:hover .demo-logo {
     color: #0088aa;
 }
 
-#join-dialog input.btn {
-    margin-top: 15px;
-}
+/*noinspection CssUnusedSymbol*/
 
-#session-header {
-    margin-bottom: 20px;
-}
+/*noinspection CssUnusedSymbol*/
 
-#session-title {
-    display: inline-block;
-}
+/*noinspection CssUnusedSymbol*/
 
-#buttonLeaveSession {
-    float: right;
-    margin-top: 20px;
-}
+/*noinspection CssUnusedSymbol*/
 
 #video-container video {
     position: relative;
@@ -221,9 +155,5 @@ video {
 /* xs ans md screen resolutions*/
 
 @media screen and (max-width: 991px) {
-    .vertical-center {
-        width: 85%;
-        padding-top: 10px;
-        top: 57%;
-    }
+    /*noinspection CssUnusedSymbol*/
 }

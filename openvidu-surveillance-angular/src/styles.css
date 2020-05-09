@@ -52,10 +52,6 @@ nav i.fa:hover {
 	transform: translate(-50%, -50%);
 }
 
-.horizontal-center {
-	margin: 0 auto;
-}
-
 .form-control {
 	color: #0088aa;
 	font-weight: bold;
@@ -151,18 +147,9 @@ a:hover .demo-logo {
 	margin-top: 15px;
 }
 
-#session-header {
-	margin-bottom: 20px;
-}
+/*noinspection ALL*/
 
-#session-title {
-	display: inline-block;
-}
-
-#buttonLeaveSession {
-	float: right;
-	margin-top: 20px;
-}
+/*noinspection ALL*/
 
 #video-container video {
 	position: relative;

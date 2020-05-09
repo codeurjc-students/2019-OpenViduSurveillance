@@ -28,7 +28,7 @@ import { StreamManager } from 'openvidu-browser';
             <div><p>{{cameraName}}</p></div>
         </div>`
 })
-export class UserVideoComponent implements AfterViewInit{
+export class UserVideoComponent implements AfterViewInit {
 
     @Input()
     streamManager: StreamManager;

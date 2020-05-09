@@ -4,7 +4,6 @@ import {catchError} from 'rxjs/operators';
 import {throwError as observableThrowError} from 'rxjs/internal/observable/throwError';
 import {StreamManager} from 'openvidu-browser';
 import {CameraDevice} from './camera-device';
-import {Observable} from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -21,16 +20,28 @@ export class CameraService {
 
 
     publishDemoCameras(mySessionId: string) {
+        JSON.stringify({
+            sessionName: mySessionId
+        });
+        const headers = new HttpHeaders().set('Authorization', 'Basic ' + btoa('OPENVIDUAPP:' + this.OPENVIDU_SERVER_SECRET))
         const options = {
             headers: new HttpHeaders({
                 'Authorization': 'Basic ' + btoa('OPENVIDUAPP:' + this.OPENVIDU_SERVER_SECRET),
-                'Content-Type': 'text/plain',
-                'Access-Control-Allow-Origin': '*'
-            })
+                'Content-Type': 'text/plain'
+            }),
+            responseType: 'text'
         };
-        this.httpClient.post('https://localhost:8080/addDemoCameras', mySessionId, options).subscribe(result => {
-            console.log(result);
-        });
+        this.httpClient.post('https://localhost:8080/addDemoCameras', mySessionId, {headers}).subscribe(
+            {
+                next(result) {
+                    console.log('Correctly added cameras: ', result);
+                },
+                error(msg) {
+                    console.log(msg);
+                    // alert('Error adding cameras: ' + JSON.parse(msg.error).message);
+                    alert('Error adding cameras: ' + msg.error.message);
+                }
+            });
     }
 
     publishIpCamera(sessionId, rtspUri, cameraName, adaptativeBitrate, onlyPlayWhenSubscribers) {
@@ -54,9 +65,15 @@ export class CameraService {
                         reject(error)
                         if (error.status === 409) {
                             resolve(sessionId);
+                        } else if (error.status === 500) {
+                            console.log(error);
+                            // alert('Error adding cameras: ' + JSON.parse(msg.error).message);
+                            alert('Error adding cameras: ' + error.error.message);
                         } else {
-                            console.warn('No connection to OpenVidu Server. This may be a certificate error at ' + this.OPENVIDU_SERVER_URL);
-                            if (window.confirm('No connection to OpenVidu Server. This may be a certificate error at \"' + this.OPENVIDU_SERVER_URL +
+                            console.warn('No connection to OpenVidu Server. ' +
+                                'This may be a certificate error at ' + this.OPENVIDU_SERVER_URL);
+                            if (window.confirm('No connection to OpenVidu Server. ' +
+                                'This may be a certificate error at \"' + this.OPENVIDU_SERVER_URL +
                                 '\"\n\nClick OK to navigate and accept it. If no certificate warning is shown, then check that your OpenVidu Server' +
                                 'is up and running at "' + this.OPENVIDU_SERVER_URL + '"')) {
                                 location.assign(this.OPENVIDU_SERVER_URL + '/accept-certificate');
@@ -83,6 +100,7 @@ export class CameraService {
             console.log(response);
         });
     }
+
     addLocalCameras() {
         this.httpClient.get('https://localhost:8080/localCameras', {responseType: 'text'}).subscribe(response => {
             console.log(response);

@@ -1,6 +1,6 @@
 
 <!--<div *ngIf="session" id="addCameras" class="">-->
-<!--    <app-demo-cameras></app-demo-cameras>-->
+<!--    <app-administration-panel></app-administration-panel>-->
 <!--    <h4>Add demo cameras</h4>-->
 <!--    <div class="btn-group-vertical" role="group" aria-label="...">-->
 <!--        <button type="button" class="btn"-->
@@ -24,7 +24,7 @@
 <!--</div>-->
 <div *ngIf="!session" id="join">
     <app-header></app-header>
-<div id="main-container" class="container" xmlns:rtsp="http://www.w3.org/1999/xhtml">
+    <div id="main-container" class="container">
 
         <div id="img-div"><img src="assets/images/openvidu_grey_bg_transp_cropped.png"/></div>
         <div id="join-dialog" class="jumbotron vertical-center">
@@ -32,16 +32,13 @@
             <form class="form-group" (submit)="joinSession()">
                 <p>
                     <label>Session</label>
-                    <input class="form-control" type="text" id="sessionId" name="sessionId" [(ngModel)]="mySessionId"
-                           required>
+                    <label for="sessionId"></label><input class="form-control" type="text" id="sessionId" name="sessionId" [(ngModel)]="mySessionId"
+                                                          required>
                 </p>
                 <p class="text-center">
                     <input class="btn btn-lg btn-success" type="submit" name="commit" value="Join!">
                 </p>
             </form>
-            <p class="text-center">
-                <button id="communicationButton" (click)="communicate()">Comunicacion con el backend</button>
-            </p>
         </div>
     </div>
 </div>

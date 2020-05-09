@@ -1,8 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {StreamManager} from 'openvidu-browser';
 import {CameraService} from '../camera.service';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {resolve} from "@angular/compiler-cli/src/ngtsc/file_system";
+import {HttpClient} from '@angular/common/http';
 
 @Component({
     selector: 'app-main-camera',
@@ -14,7 +13,7 @@ export class MainCameraComponent implements OnInit {
     ptz: Boolean = false;
     ipUrl: String;
 
-    constructor(private cameraService: CameraService,
+    constructor(public cameraService: CameraService,
                 private httpClient: HttpClient) {
     }
 

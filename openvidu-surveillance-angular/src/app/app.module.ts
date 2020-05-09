@@ -11,10 +11,10 @@ import {FooterComponent} from './footer/footer.component';
 import {SessionInfoComponent} from './session-info/session-info.component';
 import {MatListModule} from '@angular/material/list';
 import {MatCardModule} from '@angular/material/card';
-import { DemoCamerasComponent } from './demo-cameras/demo-cameras.component';
+import { AdministrationPanelComponent } from './administration-panel/administration-panel.component';
 import { MainCameraComponent } from './main-camera/main-camera.component';
-import {MatSelectModule} from "@angular/material/select";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {MatSelectModule} from '@angular/material/select';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -25,7 +25,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
         HeaderComponent,
         FooterComponent,
         SessionInfoComponent,
-        DemoCamerasComponent,
+        AdministrationPanelComponent,
         MainCameraComponent,
     ],
     imports: [

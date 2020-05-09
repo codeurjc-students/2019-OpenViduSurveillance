@@ -24,7 +24,7 @@ git clone https://github.com/OpenVidu/openvidu-tutorials.git
 npm install -g @angular/cli@6.2.4
 
 ```
-- And finally run the tutorial
+- Finally run the tutorial
 ```
 cd 2019-OpenViduSurveillance/openvidu-surveillance-angular
 npm install
