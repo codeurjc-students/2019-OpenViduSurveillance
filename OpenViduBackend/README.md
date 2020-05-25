@@ -17,7 +17,7 @@ spring.datasource.password=YOUR_DB_PASSWORD
 
 ## Starting the backend
 
-Before you start the app make sure you configured it correctly and you have an active MySQL database running to use with this application.
+Before you start the app make sure you configured it correctly and you have an active [MySQL](https://dev.mysql.com/downloads/) database running to use with this application. If you have trouble setting up MySQL you can check the docs [here](https://dev.mysql.com/doc/).
 Then you just have to run the app.
 
 ## Entities
