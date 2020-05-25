@@ -1,28 +1,5 @@
-
-<!--<div *ngIf="session" id="addCameras" class="">-->
-<!--    <app-administration-panel></app-administration-panel>-->
-<!--    <h4>Add demo cameras</h4>-->
-<!--    <div class="btn-group-vertical" role="group" aria-label="...">-->
-<!--        <button type="button" class="btn"-->
-<!--                (click)="publishDemoCameras(); publishIpCamera(mySessionId,'rtsp://freja.hiof.no:1935/rtplive/_definst_/hessdalen03.stream','camera1',-->
-<!--                true, true); publishIpCamera(mySessionId,'rtsp://91.191.213.49:554/live_mpeg4.sdp','camera2',-->
-<!--                true, true)">-->
-<!--            DEMO-->
-<!--        </button>-->
-<!--        <form class="form-group" (submit)="publishIpCamera(mySessionId,ipURL,'camera1',-->
-<!--                                             true, true)">-->
-<!--            <p>-->
-<!--                <label>Custom camera</label>-->
-<!--                <input class="form-control" type="text" id="ipURL" name="sessionId" [(ngModel)]="ipURL"-->
-<!--                       required>-->
-<!--            </p>-->
-<!--            <p class="text-center">-->
-<!--                <input class="btn btn-lg btn-success" type="submit" name="commit" value="Add camera">-->
-<!--            </p>-->
-<!--        </form>-->
-<!--    </div>-->
-<!--</div>-->
 <div *ngIf="!session" id="join">
+    <div class="total-container">
     <app-header></app-header>
     <div id="main-container" class="container">
 
@@ -42,28 +19,9 @@
         </div>
     </div>
     <app-footer></app-footer>
+    </div>
 </div>
 
-<!--&lt;!&ndash;    <div *ngIf="session" id="session">&ndash;&gt;-->
-<!--        <div id="session-header">-->
-<!--            <h1 id="session-title">{{mySessionId}}</h1>-->
-<!--            <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" (click)="leaveSession()"-->
-<!--                   value="Leave session">-->
-<!--        </div>-->
-<!--        <div *ngIf="mainStreamManager" id="main-video" class="col-md-6">-->
-<!--            <user-video [streamManager]="mainStreamManager"></user-video>-->
-<!--        </div>-->
-<!--        <div id="video-container" class="col-md-6">-->
-<!--            <div *ngIf="publisher" class="stream-container col-md-6 col-xs-6">-->
-<!--                <user-video [streamManager]="publisher" (click)="updateMainStreamManager(publisher)"></user-video>-->
-<!--            </div>-->
-<!--            <div *ngFor="let sub of subscribers" class="stream-container col-md-6 col-xs-6">-->
-<!--                <user-video [streamManager]="sub" (click)="updateMainStreamManager(sub)"></user-video>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <app-session-info [sessionId]="mySessionId"></app-session-info>-->
-<!--    </div>-->
-<!--</div>-->
 <div *ngIf="session">
     <div class="total-container">
         <app-header></app-header>

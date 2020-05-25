@@ -1,41 +1,63 @@
 /*General*/
 .total-container {
     display: grid;
-    grid-template-rows: 0.5fr 12fr 0.8fr;
+    grid-template-areas: "head" "main" "foot";
+    grid-template-rows: auto 1fr auto;
+    height: 100%;
 }
 
+app-header {
+    grid-area: head;
+}
+
+app-footer {
+    grid-area: foot;
+}
+
+/*Main Panel*/
 .main-container {
+    grid-area: main;
+    background-color: rgba(87, 123, 98, 0.4) !important;
     display: grid;
     height: 100%;
     grid-template-columns: 0.5fr 4fr 2fr;
     /*border-top: 2px solid black;*/
-
 }
 
 div h3 {
     text-align: center;
 }
 
+/*Administration Panel*/
 .demo-cameras {
     /*border-right: 2px solid black;*/
     padding: 0 15px 0 15px;
     position: relative;
 }
 
+/*Camera List*/
 .list-cameras {
     /*border-left: 2px solid black;*/
     padding: 0 15px 0 15px;
     position: relative;
 }
 
+
 /* Join dialog */
 #join-dialog {
     max-width: 40%;
     padding: 30px 40px 30px 40px;
 }
+
 #join-dialog h1 {
     margin: 10px 0 30px 0;
 }
+
+#form-group label, input, p {
+    font-family: 'Lato', sans-serif;
+
+}
+
 .jumbotron h1, h2, h3, h4, h5, h6 {
     font-family: 'Libre Baskerville', serif;
     font-weight: 700;
@@ -46,4 +68,9 @@ div h3 {
 .form-control input {
     background-color: #dee2e6 !important;
 }
+
+.main-container h1, h2, h3, h4 {
+    font-size: 32px;
+}
+
 

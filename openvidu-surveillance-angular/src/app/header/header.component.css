@@ -1,13 +1,18 @@
+/*General*/
 html {
     position: relative;
     min-height: 100%;
+}
+
+header {
+    background-color: rgba(38, 65, 69, 0.8) !important;
 }
 
 nav {
     height: 50px;
     width: 100%;
     z-index: 1;
-    background-color: rgba(1, 31, 39,0.8) !important;
+    background-color: rgba(1, 31, 39, 0.8) !important;
     border-color: #4d4d4d !important;
     border-top-right-radius: 0 !important;
     border-top-left-radius: 0 !important;
@@ -17,10 +22,25 @@ nav {
     width: 100%;
 }
 
-.nav-icon {
-    padding: 5px 15px 5px 15px;
-    float: right;
+/*Icons*/
+.navbar-brand {
+    color: #bbcac0;
 }
+
+.navbar-brand:hover {
+    transition: color .25s ease-in-out;
+    color: rgb(81, 152, 169);
+}
+
+.nav-icon {
+    padding: 10px 15px;
+    float: right;
+    font-size: 32px;
+}
+
+/*.nav-icon:hover {*/
+/*    color: rgb(81, 152, 169);*/
+/*}*/
 
 nav a {
     color: #ccc !important;
@@ -50,28 +70,11 @@ nav i.fa:hover {
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(0, 136, 170, 0.6);
 }
 
-/*noinspection CssUnusedSymbol,CssUnusedSymbol*/
-
-/*noinspection CssUnusedSymbol,CssUnusedSymbol*/
-
-/*noinspection CssUnusedSymbol,CssUnusedSymbol*/
-
-/*noinspection CssUnusedSymbol,CssUnusedSymbol*/
-
-/*noinspection CssUnusedSymbol,CssUnusedSymbol*/
-
-/*noinspection CssUnusedSymbol,CssUnusedSymbol*/
-
 .demo-logo {
     margin: 0;
     height: 22px;
     float: left;
     padding-right: 8px;
-}
-
-a:hover .demo-logo {
-    -webkit-filter: brightness(0.7);
-    filter: brightness(0.7);
 }
 
 #join-dialog h1 {
@@ -84,17 +87,15 @@ a:hover .demo-logo {
     height: 15%;
 }
 
+/*Join Box*/
+
 #join-dialog label {
     color: #0088aa;
 }
 
-/*noinspection CssUnusedSymbol*/
-
-/*noinspection CssUnusedSymbol*/
-
-/*noinspection CssUnusedSymbol*/
-
-/*noinspection CssUnusedSymbol*/
+#join-dialog label, p, button {
+    font-family: 'Lato', sans-serif !important;
+}
 
 #video-container video {
     position: relative;

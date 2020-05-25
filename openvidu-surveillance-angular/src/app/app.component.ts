@@ -45,6 +45,7 @@ export class AppComponent implements OnDestroy {
     }
 
     joinSession() {
+
         console.log('Sesion creada correctamente');
         // --- 1) Get an OpenVidu object ---
         this.OV = new OpenVidu();
