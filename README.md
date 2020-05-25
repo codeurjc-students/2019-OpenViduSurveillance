@@ -1,5 +1,5 @@
 # 2019-OpenViduSurveillance
-### Medium
+## Medium
 To see how i worked in this app step by step, check my [Medium page ](https://medium.com/@igort142)
 ## Phase 1 - Experimental / exploratory phase
 
