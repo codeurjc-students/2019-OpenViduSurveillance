@@ -1,4 +1,5 @@
-<button (click)="cameraService.publishDemoCameras(sessionId)" class="addCameraButton">
+<div class="administration">
+<button (click)="cameraService.publishDemoCameras(sessionId)" class="addCameraButton btn btn-lg btn-success">
     Add demo cameras
 </button>
 <mat-form-field>
@@ -10,7 +11,7 @@
 
 <p>You selected: {{selectedDevice}}</p>
 
-<button (click)="cameraService.publishIpCamera(sessionId,
+<button class="btn btn-lg btn-success" (click)="cameraService.publishIpCamera(sessionId,
 'rtsp://admin:admin@' + selectedDevice + '/11',selectedDevice,true,
 true)">Add selected camera</button>
-
+</div>
