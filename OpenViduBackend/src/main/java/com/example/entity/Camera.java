@@ -47,4 +47,7 @@ public class Camera {
     public String getCamera() {
         return camera;
     }
+//    public String toString(){
+//        return "Camera :" + camera + " - URL :" + url + " - Session :" + session;
+//    }
 }

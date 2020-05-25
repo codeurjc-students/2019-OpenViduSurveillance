@@ -5,13 +5,13 @@ import com.example.entity.Camera;
 import com.example.entity.IpCamera;
 import com.example.repository.CameraRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.onvif.soap.OnvifDevice;
 import de.onvif.soap.devices.PtzDevices;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -25,7 +25,6 @@ import org.apache.http.ssl.TrustStrategy;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 import org.onvif.ver10.schema.Profile;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.*;
 
@@ -73,7 +72,10 @@ public class SessionController {
                 .setSSLContext(sslContext).build();
     }
 
-    public String addCamera(String url, String sessionName, String cameraName, HttpServletResponse httpServletResponse) throws CameraAlreadyInSessionException {
+    public String addCamera(String url, String sessionName, String cameraName) throws CameraAlreadyInSessionException {
+        if (cameraRepository.existsCameraBySessionAndUrl(sessionName, url)) {
+            throw new CameraAlreadyInSessionException("This camera already exist in this session");
+        }
         Camera camera = new Camera(url, cameraName, sessionName);
         IpCamera ipCamera = new IpCamera(url, cameraName, true, true);
         newCamera(sessionName, ipCamera);
@@ -84,8 +86,8 @@ public class SessionController {
     @PostMapping("/addDemoCameras")
     public void addDemoCameras(@RequestBody String sessionName, HttpServletResponse httpServletResponse) throws DuplicateKeyException, IOException {
         try {
-            addCamera("rtsp://freja.hiof.no:1935/rtplive/_definst_/hessdalen03.stream", sessionName, "Hessdalen", httpServletResponse);
-            addCamera("rtsp://170.93.143.139/rtplive/470011e600ef003a004ee33696235daa", sessionName, "Highway", httpServletResponse);
+            addCamera("rtsp://freja.hiof.no:1935/rtplive/_definst_/hessdalen03.stream", sessionName, "Hessdalen");
+            addCamera("rtsp://170.93.143.139/rtplive/470011e600ef003a004ee33696235daa", sessionName, "Highway");
         } catch (CameraAlreadyInSessionException e) {
             System.out.println("ERROR: " + e.getMessage());
             httpServletResponse.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "This cameras already exist in the session: " + sessionName);
@@ -154,6 +156,31 @@ public class SessionController {
             // return it as a String
             String result = EntityUtils.toString(entity);
             System.out.println(result);
+            if (cameraRepository.existsCameraBySession(sessionId)) {
+                String sessionInfo = sessionInfo(sessionId);
+                ObjectMapper objectMapper = new ObjectMapper();
+                JsonNode jsonNode = objectMapper.readTree(sessionInfo);
+                int totalConnections = Integer.parseInt(jsonNode.get("connections").get("numberOfElements").toString());
+                if (totalConnections != 0) {
+                    System.out.println("Intentando ");
+                    JsonNode connections = jsonNode.get("connections").get("content");
+                    for (JsonNode j : connections) {
+                        JsonNode jsonNode1 = objectMapper.readTree(j.get("publishers").toString());
+                        String url = jsonNode1.get(0).get("rtspUri").asText();
+                        System.out.println(url);
+                        System.out.println(j.get("publishers").asText());
+                        if (!cameraRepository.existsCameraBySessionAndUrl(sessionId, url)) {
+                            System.out.println("Añadiendo camaras desde el if");
+                            addAllCamerasBySession(cameraRepository.getCamerasBySession(sessionId), sessionId);
+                        }
+                    }
+                    return result;
+                } else {
+                    System.out.println("Añadiendo camaras");
+                    addAllCamerasBySession(cameraRepository.getCamerasBySession(sessionId), sessionId);
+                    return result;
+                }
+            }
             return result;
         } catch (IOException e) {
             e.printStackTrace();
@@ -161,11 +188,18 @@ public class SessionController {
         return null;
     }
 
-    @PostMapping("/session/{sessionId}/addIpCamera")
-    public String newCamera(@PathVariable String sessionId, @RequestBody IpCamera ipCamera) throws CameraAlreadyInSessionException {
-        if (cameraRepository.existsCameraBySessionAndUrl(sessionId, ipCamera.rtspUri)) {
-            throw new CameraAlreadyInSessionException("This camera already exist in this session");
+
+    public void addAllCamerasBySession(List<Camera> cameras, String session) {
+        for (Camera c : cameras
+        ) {
+            System.out.println(c.toString());
+            IpCamera ipCamera = new IpCamera(c.getUrl(), c.getCamera());
+            newCamera(session, ipCamera);
         }
+    }
+
+    @PostMapping("/session/{sessionId}/addIpCamera")
+    public String newCamera(@PathVariable String sessionId, @RequestBody IpCamera ipCamera) {
         ObjectMapper objectMapper = new ObjectMapper();
         HttpPost request = new HttpPost("https://localhost:4443/api/sessions/" + sessionId + "/connection");
         request.setHeader(HttpHeaders.AUTHORIZATION,
@@ -213,41 +247,41 @@ public class SessionController {
 //        for (int i = 0; i <= 5; i++)
 //            ptzDevices.absoluteMove(profileToken, (float) 1, (float) 1, 1);
 //    }
-
-    @PostMapping("/ptz/{hostIp}")
-    public boolean ptz(@RequestParam String user, @RequestParam String password, @PathVariable String hostIp) throws SOAPException, ConnectException {
-        String ipUrl = hostIp + ":8081";
-        OnvifDevice onvifDevice = new OnvifDevice(ipUrl, user, password);
-        List<Profile> profiles = onvifDevice.getDevices().getProfiles();
-        String profileToken = profiles.get(0).getToken();
-        return onvifDevice.getPtz().isPtzOperationsSupported(profileToken);
-    }
-
-    @PostMapping("/ptz/{hostIp}/{direction}")
-    public void ptzMovement(@RequestParam String user, @RequestParam String password, @PathVariable String hostIp, @PathVariable String direction) throws SOAPException, ConnectException {
-        String ipUrl = hostIp + ":8081";
-        OnvifDevice onvifDevice = new OnvifDevice(ipUrl, user, password);
-        List<Profile> profiles = onvifDevice.getDevices().getProfiles();
-        String profileToken = profiles.get(0).getToken();
-        PtzDevices ptzDevices = onvifDevice.getPtz(); // get PTZ Devices
-        switch (direction) {
-            case "up":
-                for (int i = 0; i <= 5; i++)
-                    ptzDevices.absoluteMove(profileToken, (float) 1, (float) 1, 1);
-                break;
-            case "down":
-                for (int i = 0; i <= 5; i++)
-                    ptzDevices.absoluteMove(profileToken, (float) 1, (float) 1, 1);
-                break;
-            case "left":
-                for (int i = 0; i <= 5; i++)
-                    ptzDevices.absoluteMove(profileToken, (float) 1, (float) 1, 1);
-                break;
-            case "right":
-                for (int i = 0; i <= 5; i++)
-                    ptzDevices.absoluteMove(profileToken, (float) 1, (float) 1, 1);
-                break;
-
-        }
-    }
+//
+//    @PostMapping("/ptz/{hostIp}")
+//    public boolean ptz(@RequestParam String user, @RequestParam String password, @PathVariable String hostIp) throws SOAPException, ConnectException {
+//        String ipUrl = hostIp + ":8081";
+//        OnvifDevice onvifDevice = new OnvifDevice(ipUrl, user, password);
+//        List<Profile> profiles = onvifDevice.getDevices().getProfiles();
+//        String profileToken = profiles.get(0).getToken();
+//        return onvifDevice.getPtz().isPtzOperationsSupported(profileToken);
+//    }
+//
+//    @PostMapping("/ptz/{hostIp}/{direction}")
+//    public void ptzMovement(@RequestParam String user, @RequestParam String password, @PathVariable String hostIp, @PathVariable String direction) throws SOAPException, ConnectException {
+//        String ipUrl = hostIp + ":8081";
+//        OnvifDevice onvifDevice = new OnvifDevice(ipUrl, user, password);
+//        List<Profile> profiles = onvifDevice.getDevices().getProfiles();
+//        String profileToken = profiles.get(0).getToken();
+//        PtzDevices ptzDevices = onvifDevice.getPtz(); // get PTZ Devices
+//        switch (direction) {
+//            case "up":
+//                for (int i = 0; i <= 5; i++)
+//                    ptzDevices.absoluteMove(profileToken, (float) 1, (float) 1, 1);
+//                break;
+//            case "down":
+//                for (int i = 0; i <= 5; i++)
+//                    ptzDevices.absoluteMove(profileToken, (float) 1, (float) 1, 1);
+//                break;
+//            case "left":
+//                for (int i = 0; i <= 5; i++)
+//                    ptzDevices.absoluteMove(profileToken, (float) 1, (float) 1, 1);
+//                break;
+//            case "right":
+//                for (int i = 0; i <= 5; i++)
+//                    ptzDevices.absoluteMove(profileToken, (float) 1, (float) 1, 1);
+//                break;
+//
+//        }
+//    }
 }

@@ -21,5 +21,8 @@ public class IpCamera {
         this.adaptativeBitrate = adaptativeBitrate;
         this.onlyPlayWhenSubscribers = onlyPlayWhenSubscribers;
     }
+    public String toString(){
+        return "uri :" + rtspUri + " - name :" + data;
+    }
 }
 

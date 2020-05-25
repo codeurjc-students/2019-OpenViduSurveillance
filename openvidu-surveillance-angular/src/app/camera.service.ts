@@ -89,6 +89,7 @@ export class CameraService {
         });
     }
 
+    // Function to discover cameras via Backend, not in use right now
     discoverCameras(sessionID) {
         const options = {
             headers: new HttpHeaders({
