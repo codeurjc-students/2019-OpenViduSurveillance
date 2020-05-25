@@ -1,4 +1,6 @@
 # OpenViduSurveillance Frontend
+
+## Starting the frontend
 To start the frontend you will need:
 
 - Install dependencies
