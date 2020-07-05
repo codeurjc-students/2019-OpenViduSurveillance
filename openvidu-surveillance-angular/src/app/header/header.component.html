@@ -9,6 +9,8 @@
           rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
     <link href="../app.component.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
     <!-- Bootstrap -->
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -28,15 +30,20 @@
 <header>
     <div class="container">
         <div class="navbar-header">
-    <a class="navbar-brand" href="/"><img class="demo-logo"
-                                          src="assets/images/openvidu_vert_white_bg_trans_cropped.png"/>
-        Surveillance</a>
+            <a class="navbar-brand" href="/"><img class="demo-logo"
+                                                  src="assets/images/openvidu_vert_white_bg_trans_cropped.png"/>
+                Surveillance</a>
 
-    <a class="navbar-brand nav-icon"
-       href="https://github.com/codeurjc-students/2019-OpenViduSurveillance"
-       title="GitHub Repository" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
-    <a class="navbar-brand nav-icon" href="https://docs.openvidu.io/en/2.14.0/"
-       title="Documentation" target="_blank"><i class="fa fa-book" aria-hidden="true"></i></a>
+            <a class="navbar-brand nav-icon"
+               href="https://github.com/codeurjc-students/2019-OpenViduSurveillance"
+               title="GitHub Repository" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+            <a class="navbar-brand nav-icon" href="https://docs.openvidu.io/en/2.14.0/"
+               title="Documentation" target="_blank"><i class="fa fa-book" aria-hidden="true"></i></a>
+            <div *ngIf="session">
+                <a class="navbar-brand nav-icon"
+                   href="https://github.com/codeurjc-students/2019-OpenViduSurveillance"
+                   title="GitHub Repository" target="_blank"><i class="fa fa-cog" aria-hidden="true"></i></a>
+            </div>
         </div>
     </div>
 </header>

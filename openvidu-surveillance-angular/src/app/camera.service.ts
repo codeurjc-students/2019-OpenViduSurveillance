@@ -31,7 +31,7 @@ export class CameraService {
             }),
             responseType: 'text'
         };
-        this.httpClient.post('https://localhost:8080/addDemoCameras', mySessionId, {headers}).subscribe(
+        this.httpClient.post('https://localhost:8080/session/' + mySessionId + '/cameras/demo', {headers}).subscribe(
             {
                 next(result) {
                     console.log('Correctly added cameras: ', result);
@@ -59,7 +59,7 @@ export class CameraService {
                 })
             };
             // return this.httpClient.post(this.OPENVIDU_SERVER_URL + '/api/sessions/' + sessionId + '/connection', body, options)
-            return this.httpClient.post('https://localhost:8080/session/' + sessionId + '/addIpCamera', body, options)
+            return this.httpClient.post('https://localhost:8080/session/' + sessionId + '/camera', body, options)
                 .pipe(
                     catchError(error => {
                         reject(error)
@@ -97,13 +97,13 @@ export class CameraService {
                 'Content-Type': 'text/plain'
             })
         };
-        this.httpClient.post('https://localhost:8080/discover', sessionID, options).subscribe(response => {
+        this.httpClient.post('https://localhost:8080/cameras/local', sessionID, options).subscribe(response => {
             console.log(response);
         });
     }
 
     addLocalCameras() {
-        this.httpClient.get('https://localhost:8080/localCameras', {responseType: 'text'}).subscribe(response => {
+        this.httpClient.get('https://localhost:8080/cameras/local', {responseType: 'text'}).subscribe(response => {
             console.log(response);
             console.log(JSON.parse(response));
             this.availableIpCameras = JSON.parse(response);

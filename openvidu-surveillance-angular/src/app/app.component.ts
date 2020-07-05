@@ -22,7 +22,6 @@ export class AppComponent implements OnDestroy {
 
     // Join form
     mySessionId: string;
-    ipURL: string;
 
     // Main video of the page, will be 'publisher' or one of the 'subscribers',
     // updated by click event in UserVideoComponent children
@@ -173,7 +172,7 @@ export class AppComponent implements OnDestroy {
                     'Content-Type': 'application/json'
                 })
             };
-            return this.httpClient.get('https://localhost:8080/newSession/' + this.mySessionId, options)
+            return this.httpClient.post('https://localhost:8080/session/' + this.mySessionId, options)
                 .subscribe(result => {
                         console.log(result);
                         res(result['token']);
@@ -182,7 +181,6 @@ export class AppComponent implements OnDestroy {
                         console.log(err);
                         reject(err);
                     });
-
         })
     }
 
