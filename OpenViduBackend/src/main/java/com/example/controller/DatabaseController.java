@@ -5,7 +5,6 @@ import be.teletask.onvif.listeners.DiscoveryListener;
 import be.teletask.onvif.models.Device;
 import com.example.entity.Camera;
 import com.example.repository.CameraRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,15 +23,15 @@ public class DatabaseController {
         this.cameraRepository = cameraRepository;
     }
 
-    @PostMapping("/add")
-    public String addNewCamera(@RequestBody String url) {
-        Camera camera = new Camera(url);
-        cameraRepository.save(camera);
-        return camera.toString();
-    }
+//    @PostMapping("/camera")
+//    public String addNewCamera(@RequestBody String url) {
+//        Camera camera = new Camera(url);
+//        cameraRepository.save(camera);
+//        return camera.toString();
+//    }
 
 
-    @PostMapping("/discover")
+    @PostMapping("/localCameras")
     public String discoverCameras(@RequestBody String sessionName) {
         Future future = discover(sessionName);
         while (!future.isDone()) {
@@ -71,7 +70,7 @@ public class DatabaseController {
         });
     }
 
-    @GetMapping("/localCameras")
+    @GetMapping("/cameras/local")
     public List<Camera> localCameras() {
         return cameraRepository.getCamerasByCamera("localNetworkCamera");
     }
