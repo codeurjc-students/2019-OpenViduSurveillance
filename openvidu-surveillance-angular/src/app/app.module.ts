@@ -15,6 +15,8 @@ import { AdministrationPanelComponent } from './administration-panel/administrat
 import { MainCameraComponent } from './main-camera/main-camera.component';
 import {MatSelectModule} from '@angular/material/select';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { AppRoutingModule } from './app-routing.module';
+import {APP_BASE_HREF} from '@angular/common';
 
 
 @NgModule({
@@ -36,9 +38,10 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
         FormsModule,
         HttpClientModule,
         ReactiveFormsModule,
-        MatSelectModule
+        MatSelectModule,
+        AppRoutingModule
     ],
-    providers: [],
+    providers: [{provide: APP_BASE_HREF, useValue: '/'}],
     bootstrap: [AppComponent]
 })
 export class AppModule {

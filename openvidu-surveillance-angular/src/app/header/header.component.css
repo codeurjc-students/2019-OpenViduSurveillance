@@ -7,7 +7,16 @@ html {
 header {
     background-color: rgba(38, 65, 69, 0.8) !important;
 }
-
+/*Overwriting no href style*/
+a:not([href]):not([tabindex]) {
+     color: #bbcac0;
+    cursor: pointer;
+}
+a:not([href]):not([tabindex]):hover {
+    transition: color .25s ease-in-out;
+    color: rgb(81, 152, 169);
+}
+/*Icon styles*/
 nav {
     height: 50px;
     width: 100%;
@@ -15,6 +24,9 @@ nav {
     background-color: rgba(1, 31, 39, 0.8) !important;
     border-color: #4d4d4d !important;
     border-top-right-radius: 0 !important;
+    padding: 10px 15px;
+    float: right;
+    font-size: 32px;
     border-top-left-radius: 0 !important;
 }
 
@@ -22,7 +34,6 @@ nav {
     width: 100%;
 }
 
-/*Icons*/
 .navbar-brand {
     color: #bbcac0;
 }

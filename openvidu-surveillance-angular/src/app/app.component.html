@@ -1,44 +1,49 @@
 <div *ngIf="!session" id="join">
     <div class="total-container">
-    <app-header></app-header>
-    <div id="main-container" class="container">
+        <app-header></app-header>
+        <div id="main-container" class="container">
 
-        <div id="img-div"><img src="assets/images/openvidu_grey_bg_transp_cropped.png"/></div>
-        <div id="join-dialog" class="jumbotron vertical-center-main">
-            <h1>Surveillance<br> session</h1>
-            <form class="form-group" (submit)="joinSession()">
-                <p>
-                    <label>Session</label>
-                    <label for="sessionId"></label><input class="form-control" type="text" id="sessionId" name="sessionId" [(ngModel)]="mySessionId"
-                                                          required>
-                </p>
-                <p class="text-center">
-                    <input class="btn btn-lg btn-success" type="submit" name="commit" value="Join!">
-                </p>
-            </form>
-        </div>
-    </div>
-    <app-footer></app-footer>
-    </div>
-</div>
-
-<div *ngIf="session">
-    <div class="total-container">
-        <app-header [session]="true"></app-header>
-        <div class="main-container">
-            <div class="demo-cameras">
-                <h3>Administration panel</h3>
-                <app-demo-cameras [sessionId]="mySessionId"></app-demo-cameras>
-            </div>
-            <div class="main-camera">
-                <h3>OpenVidu Surveillance</h3>
-                <app-main-camera [mainStreamManager]="cameraService.mainStreamManager"></app-main-camera>
-            </div>
-            <div class="list-cameras">
-                <h3>Cameras</h3>
-                <app-session-info [subscribers]="subscribers" [sessionId]="mySessionId"></app-session-info>
+            <div id="img-div"><img src="assets/images/openvidu_grey_bg_transp_cropped.png"/></div>
+            <div id="join-dialog" class="jumbotron vertical-center-main">
+                <h1>Surveillance<br> session</h1>
+                <form class="form-group" (submit)="joinSession()">
+                    <p>
+                        <label>Session</label>
+                        <label for="sessionId"></label><input class="form-control" type="text" id="sessionId"
+                                                              name="sessionId" [(ngModel)]="mySessionId"
+                                                              required>
+                    </p>
+                    <p class="text-center">
+                        <input class="btn btn-lg btn-success" type="submit" name="commit" value="Join!">
+                    </p>
+                </form>
             </div>
         </div>
         <app-footer></app-footer>
     </div>
 </div>
+
+<div *ngIf="session">
+    <div class="total-container">
+        <app-header [session]="true" (settingsOn)="toSettings($event)"></app-header>
+        <div class="demo-cameras" *ngIf="headerSettingsOn; else mainScreen">
+            <h3>Administration panel</h3>
+            <app-demo-cameras [sessionId]="mySessionId"></app-demo-cameras>
+        </div>
+        <ng-template #mainScreen>
+            <div class="main-container">
+                <div class="main-camera">
+                    <h3>OpenVidu Surveillance</h3>
+                    <app-main-camera [mainStreamManager]="cameraService.mainStreamManager"></app-main-camera>
+                </div>
+                <div class="list-cameras">
+                    <h3>Cameras</h3>
+                    <app-session-info [subscribers]="subscribers" [sessionId]="mySessionId"></app-session-info>
+                </div>
+            </div>
+        </ng-template>
+
+        <app-footer></app-footer>
+    </div>
+</div>
+

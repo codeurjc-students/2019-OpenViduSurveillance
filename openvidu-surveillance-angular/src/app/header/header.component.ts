@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Session} from 'openvidu-browser';
 
 @Component({
@@ -7,6 +7,7 @@ import {Session} from 'openvidu-browser';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  @Output() settingsOn = new EventEmitter<Boolean>();
   @Input() session: Boolean;
 
   constructor() { }
@@ -14,4 +15,8 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
   }
 
+  settings() {
+    this.settingsOn.emit(true);
+    console.log('Entering settings')
+  }
 }

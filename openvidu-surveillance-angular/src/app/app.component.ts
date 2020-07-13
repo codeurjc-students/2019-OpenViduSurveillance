@@ -11,6 +11,8 @@ import {CameraService} from './camera.service';
 })
 export class AppComponent implements OnDestroy {
 
+    headerSettingsOn: Boolean = false;
+
     OPENVIDU_SERVER_URL = 'https://' + location.hostname + ':4443';
     OPENVIDU_SERVER_SECRET = 'MY_SECRET';
 
@@ -30,6 +32,10 @@ export class AppComponent implements OnDestroy {
     constructor(private httpClient: HttpClient,
                 public cameraService: CameraService) {
         this.generateParticipantInfo();
+    }
+
+    toSettings(state: Boolean) {
+        this.headerSettingsOn = !this.headerSettingsOn
     }
 
     @HostListener('window:beforeunload')
