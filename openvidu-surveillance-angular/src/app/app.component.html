@@ -26,7 +26,7 @@
 <div *ngIf="session">
     <div class="total-container">
 
-        <app-header [session]="true" (settingsOn)="toSettings($event)"></app-header>
+        <app-header [session]="true" (settingsOn)="toSettings($event)" (activeSession)="logOut($event)"></app-header>
 
         <div class="demo-cameras" *ngIf="headerSettingsOn; else mainScreen">
             <h3>Administration panel</h3>
@@ -36,11 +36,9 @@
         <ng-template #mainScreen>
             <div class="main-container">
                 <div class="main-camera">
-                    <h3>OpenVidu Surveillance</h3>
                     <app-main-camera [mainStreamManager]="cameraService.mainStreamManager"></app-main-camera>
                 </div>
                 <div class="list-cameras">
-                    <h3>Cameras</h3>
                     <app-session-info [subscribers]="subscribers" [sessionId]="mySessionId"></app-session-info>
                 </div>
             </div>

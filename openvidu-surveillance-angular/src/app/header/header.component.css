@@ -162,7 +162,26 @@ video {
     object-fit: cover;
     height: 180px;
 }
+/*Pop up dialog */
+.mat-dialog-actions {
+    display: block;
+    margin: 5px auto;
+    text-align: center;
 
+}
+
+#exitButton {
+    color: black;
+    text-decoration: none;
+}
+
+#exitButton:hover {
+    transition: background-color .5s ease-in-out;
+    background-color: rgba(198, 19, 64, 0.6);
+    color: black!important;
+    text-decoration: none;
+    font-weight: bold;
+}
 
 /* xs ans md screen resolutions*/
 
