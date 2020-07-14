@@ -2,7 +2,7 @@
     float:left;
 }
 .miniatures {
-    height: 70%;
+    height: 85%;
     overflow-y: scroll;
 }
 

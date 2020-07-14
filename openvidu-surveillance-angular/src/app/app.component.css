@@ -20,7 +20,7 @@ app-footer {
     background-color: rgba(87, 123, 98, 0.4) !important;
     display: grid;
     height: 100%;
-    grid-template-columns: 0.5fr 4fr 2fr;
+    grid-template-columns: 4fr 1fr;
     /*border-top: 2px solid black;*/
 }
 

@@ -2,7 +2,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <title></title>
 </head>
-<div *ngIf="mainStreamManager" id="main-video" class="col-md-6">
+<div *ngIf="mainStreamManager" id="main-video">
     <user-video [cameraName]="cameraService.mainStreamManager.stream.connection.data"
                 [streamManager]="cameraService.mainStreamManager"></user-video>
 </div>

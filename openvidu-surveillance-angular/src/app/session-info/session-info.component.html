@@ -13,27 +13,6 @@
     </div>
 </div>
 <div>
-
-    <form class="form-group addCameraButton" (submit)="cameraService.publishIpCamera(sessionId,ipURL,cameraName,
-                                             true, true)">
-        <p>
-            <label>Custom camera</label>
-            <label for="ipURL"></label>
-            <input class="form-control" type="text" id="ipURL" name="sessionId" [(ngModel)]="ipURL"
-                                              required>
-        </p>
-        <p>
-            <label>Camera name</label>
-            <label for="cameraName">
-                <input class="form-control" type="text" id="cameraName" name="cameraName" [(ngModel)]="cameraName"
-                       [defaultValue]="cameraName">
-            </label>
-        </p>
-        <p class="text-center">
-            <input class="btn btn-lg btn-success" type="submit" name="commit" value="Add camera">
-        </p>
-    </form>
-
 </div>
 
 

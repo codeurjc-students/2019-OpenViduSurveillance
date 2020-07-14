@@ -9,23 +9,25 @@ import { StreamManager } from 'openvidu-browser';
             height: auto;
             float: left;
             cursor: pointer;
+            text-align: center;
         }
         div div {
-            position: absolute;
-            background: #f8f8f8;
+            margin: 0 auto;
+            text-align: center;
             padding-left: 5px;
             padding-right: 5px;
             color: #777777;
             font-weight: bold;
             border-bottom-right-radius: 4px;
+            width: fit-content;
         }
         p {
             margin: 0;
         }`],
     template: `
         <div>
-            <ov-video [streamManager]="streamManager"></ov-video>
             <div><p>{{cameraName}}</p></div>
+            <ov-video [streamManager]="streamManager"></ov-video>
         </div>`
 })
 export class UserVideoComponent implements AfterViewInit {
