@@ -25,11 +25,14 @@
 
 <div *ngIf="session">
     <div class="total-container">
+
         <app-header [session]="true" (settingsOn)="toSettings($event)"></app-header>
+
         <div class="demo-cameras" *ngIf="headerSettingsOn; else mainScreen">
             <h3>Administration panel</h3>
             <app-demo-cameras [sessionId]="mySessionId"></app-demo-cameras>
         </div>
+
         <ng-template #mainScreen>
             <div class="main-container">
                 <div class="main-camera">

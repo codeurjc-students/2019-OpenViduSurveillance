@@ -1,4 +1,33 @@
 .addCameraButton {
     margin-bottom: 25px;
 }
+.local-cameras {
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+}
+.add-camera {
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+}
+.configuration-box {
 
+    width: 50%;
+    margin: 25px auto 25px auto;
+    text-align: center;
+
+}
+.new-camera {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    width: 25%;
+}
+.grid {
+    display: grid;
+    grid-template-areas: "local" "addCamera";
+    grid-template-rows: 1fr 1fr;
+    height: 80%;
+}

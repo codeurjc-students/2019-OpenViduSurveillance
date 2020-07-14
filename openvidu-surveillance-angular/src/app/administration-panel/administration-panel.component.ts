@@ -16,6 +16,9 @@ export class AdministrationPanelComponent {
         devices: new FormControl(this.cameraService.availableIpCameras)
     })
     selectedDevice: CameraDevice;
+    hide = true;
+    cameraName: String;
+    cameraUrl: String
 
     constructor(public cameraService: CameraService) {
         this.devices = cameraService.availableIpCameras;

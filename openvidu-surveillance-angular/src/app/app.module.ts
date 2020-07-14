@@ -17,6 +17,9 @@ import {MatSelectModule} from '@angular/material/select';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import {APP_BASE_HREF} from '@angular/common';
+import {MatIconModule} from '@angular/material/icon';
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
 
 
 @NgModule({
@@ -33,13 +36,16 @@ import {APP_BASE_HREF} from '@angular/common';
     imports: [
         MatCardModule,
         MatListModule,
+        MatInputModule,
         BrowserModule,
         BrowserAnimationsModule,
         FormsModule,
         HttpClientModule,
         ReactiveFormsModule,
         MatSelectModule,
-        AppRoutingModule
+        AppRoutingModule,
+        MatIconModule,
+        MatButtonModule
     ],
     providers: [{provide: APP_BASE_HREF, useValue: '/'}],
     bootstrap: [AppComponent]
