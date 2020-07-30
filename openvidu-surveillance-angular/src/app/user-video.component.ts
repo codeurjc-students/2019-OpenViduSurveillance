@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, Input} from '@angular/core';
-import { StreamManager } from 'openvidu-browser';
+import {StreamManager} from 'openvidu-browser';
 
 @Component({
     selector: 'user-video',
@@ -11,6 +11,7 @@ import { StreamManager } from 'openvidu-browser';
             cursor: pointer;
             text-align: center;
         }
+
         div div {
             margin: 0 auto;
             text-align: center;
@@ -21,6 +22,7 @@ import { StreamManager } from 'openvidu-browser';
             border-bottom-right-radius: 4px;
             width: fit-content;
         }
+
         p {
             margin: 0;
         }`],
@@ -36,9 +38,11 @@ export class UserVideoComponent implements AfterViewInit {
     streamManager: StreamManager;
     @Input()
     cameraName: string;
+
     getNicknameTag() { // Gets the nickName of the user
         return JSON.parse(this.streamManager.stream.connection.data).clientData;
     }
+
     ngAfterViewInit() {
         this.cameraName = this.streamManager.stream.connection.data;
     }

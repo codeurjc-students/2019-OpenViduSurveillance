@@ -30,7 +30,7 @@
 
         <div class="demo-cameras" *ngIf="headerSettingsOn; else mainScreen">
             <h3>Administration panel</h3>
-            <app-demo-cameras [sessionId]="mySessionId"></app-demo-cameras>
+            <app-demo-cameras [sessionId]="mySessionId" [subscribers]="subscribers"></app-demo-cameras>
         </div>
 
         <ng-template #mainScreen>

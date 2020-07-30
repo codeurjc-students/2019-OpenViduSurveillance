@@ -1,19 +1,35 @@
 <div class="grid">
-    <div class="configuration-box">
-        <h4>Local camera configuration</h4>
-        <mat-form-field>
-            <mat-label>Select an option</mat-label>
-            <mat-select [(value)]="selectedDevice">
-                <mat-option *ngFor="let device of devices" [value]="device.url">{{device.url}}</mat-option>
-            </mat-select>
-        </mat-form-field>
+    <div id="up-grid">
+        <div class="configuration-box">
+            <h4>Local camera configuration</h4>
+            <mat-form-field>
+                <mat-label>Select an option</mat-label>
+                <mat-select [(value)]="selectedDevice">
+                    <mat-option *ngFor="let device of devices" [value]="device.url">{{device.url}}</mat-option>
+                </mat-select>
+            </mat-form-field>
 
-        <p>You selected: {{selectedDevice}}</p>
+            <p>You selected: {{selectedDevice}}</p>
 
-        <button class="btn btn-lg btn-success" (click)="cameraService.publishIpCamera(sessionId,
+            <button class="btn btn-lg btn-success" (click)="cameraService.publishIpCamera(sessionId,
 'rtsp://admin:admin@' + selectedDevice + '/11',selectedDevice,true,
 true)">Add selected camera
-        </button>
+            </button>
+        </div>
+        <div class="configuration-box">
+            <h4>Delete cameras</h4>
+            <mat-form-field>
+                <mat-label>Select an option</mat-label>
+                <mat-select [(value)]="cameraToDelete">
+                    <mat-option *ngFor="let subscriber of subscribers" [value]="subscriber.stream.connection.data">
+                        {{subscriber.stream.connection.data}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <br>
+            <div *ngIf="cameraToDelete">
+            <button class="btn btn-lg btn-success" (click)="deleteDialogDisplay()">Delete selected camera</button>
+            </div>
+        </div>
     </div>
     <div class="configuration-box new-camera">
         <h4>Add new camera</h4>

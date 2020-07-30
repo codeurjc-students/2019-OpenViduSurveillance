@@ -223,7 +223,7 @@ public class SessionController {
             if (cameraRepository.existsCameraBySessionAndUrl(sessionId, "rtsp://freja.hiof.no:1935/rtplive/_definst_/hessdalen03.stream")) {
                 throw new CameraAlreadyInSessionException("This camera already exist in this session");
             } else {
-                IpCamera demo1= new IpCamera("rtsp://freja.hiof.no:1935/rtplive/_definst_/hessdalen03.stream", "Hessdalen",true,true);
+                IpCamera demo1= new IpCamera("rtsp://freja.hiof.no:1935/rtplive/_definst_/hessdalen03.stream", "Highway",true,true);
                 IpCamera demo2= new IpCamera("rtsp://170.93.143.139/rtplive/470011e600ef003a004ee33696235daa", "Hessdalen",true,true);
                 newCamera(sessionId,demo1);
                 newCamera(sessionId,demo2);

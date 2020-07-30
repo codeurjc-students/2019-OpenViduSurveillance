@@ -31,3 +31,9 @@
     grid-template-rows: 1fr 1fr;
     height: 80%;
 }
+
+#up-grid {
+    display: grid;
+    grid-template-areas: "local" "deleteCamera";
+    grid-template-columns: 1fr 1fr;
+}
