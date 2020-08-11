@@ -55,7 +55,7 @@ public class DatabaseController {
                     for (Device device : devices) {
                         System.out.println("Devices found: " + device.getHostName() + " " + device.getUsername());
                         Camera camera = new Camera(device.getHostName().substring(7), "localNetworkCamera", sessionName);
-                        if (!cameraRepository.existsCameraBySessionAndUrl(sessionName, device.getHostName().substring(7)))
+                        if (!cameraRepository.existsCameraBySessionAndRtspUri(sessionName, device.getHostName().substring(7)))
                             cameraRepository.save(camera);
                     }
                 }
@@ -72,7 +72,7 @@ public class DatabaseController {
 
     @GetMapping("/cameras/local")
     public List<Camera> localCameras() {
-        return cameraRepository.getCamerasByCamera("localNetworkCamera");
+        return cameraRepository.getCamerasByData("localNetworkCamera");
     }
 
 }

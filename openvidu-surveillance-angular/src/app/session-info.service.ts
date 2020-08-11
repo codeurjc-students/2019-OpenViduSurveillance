@@ -11,7 +11,7 @@ export class SessionInfoService {
     }
 
     getSessionInfo(sessionId: string): Observable<string> {
-        let url = 'https://localhost:8080/session/' + sessionId;
+        let url = 'https://localhost:8080/session/' + sessionId + '/info';
         return this.httpClient.get(url, {responseType: 'text'});
     }
 

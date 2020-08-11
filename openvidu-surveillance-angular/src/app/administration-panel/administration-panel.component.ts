@@ -29,23 +29,21 @@ export class AdministrationPanelComponent {
         this.devices = cameraService.availableIpCameras;
     }
 
-    addDemoCameras() {
-        this.cameraService.publishDemoCameras(this.sessionId);
-    }
-
     deleteDialogDisplay() {
         const dialog = this.dialog.open(DeleteDialogComponent);
         dialog.componentInstance.camToDelete = this.cameraToDelete;
+        dialog.componentInstance.sessionId = this.sessionId;
+        dialog.componentInstance.cameraName = this.cameraName;
     }
 }
 
 @Component({
     selector: 'close-dialog',
     template: `
-        <h1 mat-dialog-title>Leaving session</h1>
+        <h1 mat-dialog-title>Delete camera</h1>
         <div mat-dialog-content>¿Are you sure you want to delete "{{camToDelete}}" camera?</div>
         <div mat-dialog-actions>
-            <button id="exitButton" mat-button mat-dialog-close>Yes</button>
+            <button id="exitButton" mat-button mat-dialog-close (click)="deleteCam()">Yes</button>
             <button mat-button mat-dialog-close>No</button>
         </div>
     `,
@@ -53,5 +51,11 @@ export class AdministrationPanelComponent {
 })
 export class DeleteDialogComponent {
     @Input() camToDelete: CameraDevice;
-
+    @Input() sessionId: string;
+    @Input() cameraName: String;
+    constructor(public cameraService: CameraService) {
+    }
+    deleteCam() {
+        this.cameraService.deleteCamera(this.sessionId, this.camToDelete);
+    }
 }

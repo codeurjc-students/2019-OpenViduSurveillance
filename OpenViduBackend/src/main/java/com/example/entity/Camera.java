@@ -10,26 +10,33 @@ public class Camera {
     private Long id;
 
     private String session;
-    private String url;
-    private String camera;
+    private String rtspUri;
+    private String data;
+    private String connectionId;
 
     protected Camera(){
 
     }
 
-    public Camera(String url, String cameraName, String sessionName){
-        this.url = url;
+    public Camera(String rtspUri, String cameraName, String sessionName){
+        this.rtspUri = rtspUri;
         this.session = sessionName;
-        this.camera = cameraName;
+        this.data = cameraName;
+    }
+    public Camera(String rtspUri, String cameraName, String sessionName, String connectionId){
+        this.rtspUri = rtspUri;
+        this.session = sessionName;
+        this.data = cameraName;
+        this.connectionId = connectionId;
     }
 
-    public Camera(String url){
-        this.url = url;
+    public Camera(String rtspUri){
+        this.rtspUri = rtspUri;
     }
 
-    public Camera(String url, String cameraName){
-        this.url = url;
-        this.camera = cameraName;
+    public Camera(String rtspUri, String cameraName){
+        this.rtspUri = rtspUri;
+        this.data = cameraName;
     }
 
     public Long getId() {
@@ -40,14 +47,20 @@ public class Camera {
         return session;
     }
 
-    public String getUrl() {
-        return url;
+    public String getRtspUri() {
+        return rtspUri;
     }
 
-    public String getCamera() {
-        return camera;
+    public String getData() {
+        return data;
     }
-//    public String toString(){
+
+    public String getConnectionId() {
+        return connectionId;
+                //.substring(1,connectionId.length()-1);
+
+    }
+    //    public String toString(){
 //        return "Camera :" + camera + " - URL :" + url + " - Session :" + session;
 //    }
 }

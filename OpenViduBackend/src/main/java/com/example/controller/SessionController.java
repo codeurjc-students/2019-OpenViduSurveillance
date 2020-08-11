@@ -2,7 +2,6 @@ package com.example.controller;
 
 import com.example.com.example.error.CameraAlreadyInSessionException;
 import com.example.entity.Camera;
-import com.example.entity.IpCamera;
 import com.example.repository.CameraRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -10,8 +9,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
@@ -98,7 +99,7 @@ public class SessionController {
             System.out.println(headers);
             // return it as a String
             String result = EntityUtils.toString(entity);
-            System.out.println(result);
+            System.out.println(result + "Es este?");
         }
         try (CloseableHttpResponse response = httpClient.execute(requestToken)) {
             System.out.println(response.getStatusLine().toString());
@@ -122,7 +123,7 @@ public class SessionController {
                         String url = jsonNode1.get(0).get("rtspUri").asText();
                         System.out.println(url);
                         System.out.println(j.get("publishers").asText());
-                        if (!cameraRepository.existsCameraBySessionAndUrl(sessionId, url)) {
+                        if (!cameraRepository.existsCameraBySessionAndRtspUri(sessionId, url)) {
                             System.out.println("Añadiendo camaras desde el if");
                             addAllCamerasBySession(cameraRepository.getCamerasBySession(sessionId), sessionId);
                         }
@@ -166,12 +167,11 @@ public class SessionController {
         for (Camera c : cameras
         ) {
             System.out.println(c.toString());
-            IpCamera ipCamera = new IpCamera(c.getUrl(), c.getCamera());
-            newCamera(session, ipCamera);
+            newCamera(session, c);
         }
     }
 
-    public String newCamera(@PathVariable String sessionId, @RequestBody IpCamera ipCamera) {
+    public String newCamera(@PathVariable String sessionId, @RequestBody Camera camera) {
                 ObjectMapper objectMapper = new ObjectMapper();
                 HttpPost request = new HttpPost("https://localhost:4443/api/sessions/" + sessionId + "/connection");
                 request.setHeader(HttpHeaders.AUTHORIZATION,
@@ -179,7 +179,7 @@ public class SessionController {
                 request.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
 
                 try {
-                    String json = objectMapper.writeValueAsString(ipCamera);
+                    String json = objectMapper.writeValueAsString(camera);
                     System.out.println(json);
                     request.setEntity(new StringEntity(json));
                     try (CloseableHttpResponse response = httpClient.execute(request)) {
@@ -190,7 +190,8 @@ public class SessionController {
                         System.out.println(headers);
                         // return it as a String
                         String result = EntityUtils.toString(entity);
-                        System.out.println(result);
+
+                        System.out.println(result + "ESTE");
                         return result;
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -202,14 +203,35 @@ public class SessionController {
             }
 
     @PostMapping("/session/{sessionId}/camera")
-    public String addCamera(@RequestBody IpCamera ipCamera, @PathVariable String sessionId ) throws CameraAlreadyInSessionException {
-        if (cameraRepository.existsCameraBySessionAndUrl(sessionId, ipCamera.rtspUri)) {
+    public String addCamera(@RequestBody Camera camera, @PathVariable String sessionId ) throws CameraAlreadyInSessionException, JsonProcessingException {
+        if (cameraRepository.existsCameraBySessionAndRtspUri(sessionId, camera.getRtspUri())) {
             throw new CameraAlreadyInSessionException("This camera already exist in this session");
         }
-        Camera camera = new Camera(ipCamera.rtspUri, ipCamera.data, sessionId);
-        newCamera(sessionId, ipCamera);
-        cameraRepository.save(camera);
-        return camera.toString();
+        String result = newCamera(sessionId, camera);
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(result);
+        String connectionId = jsonNode.get("connectionId").toString();
+        Camera newCamera = new Camera(camera.getRtspUri(),
+                camera.getData(),
+                sessionId,
+                connectionId);
+        System.out.println(connectionId);
+        cameraRepository.save(newCamera);
+        return newCamera.toString();
+    }
+
+//    Method to delete cameras from the database and the session
+    @DeleteMapping("/session/{sessionId}/cameras/{cameraName}")
+    public void deleteCamera(@PathVariable String cameraName, @PathVariable String sessionId ) throws IOException {
+        Camera cam = cameraRepository.getCameraBySessionAndData(sessionId,cameraName);
+        String formattedId = cam.getConnectionId().substring(1,cam.getConnectionId().length()-1);
+        HttpDelete request = new HttpDelete("https://localhost:4443/api/sessions/" + sessionId + "/connection/" + formattedId);
+        request.setHeader(HttpHeaders.AUTHORIZATION,
+                "Basic " + Base64.getEncoder().encodeToString(("OPENVIDUAPP:" + "MY_SECRET").getBytes()));
+        request.setHeader(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded");
+        System.out.println("Deleting " + cam.toString());
+        cameraRepository.delete(cam);
+        httpClient.execute(request);
     }
 
     @GetMapping("/session/{sessionId}/cameras")
@@ -220,13 +242,13 @@ public class SessionController {
     @PostMapping("/session/{sessionId}/cameras/demo")
     public void addDemoCameras(@PathVariable String sessionId, HttpServletResponse httpServletResponse) throws DuplicateKeyException, IOException {
         try {
-            if (cameraRepository.existsCameraBySessionAndUrl(sessionId, "rtsp://freja.hiof.no:1935/rtplive/_definst_/hessdalen03.stream")) {
+            if (cameraRepository.existsCameraBySessionAndRtspUri(sessionId, "rtsp://freja.hiof.no:1935/rtplive/_definst_/hessdalen03.stream")) {
                 throw new CameraAlreadyInSessionException("This camera already exist in this session");
             } else {
-                IpCamera demo1= new IpCamera("rtsp://freja.hiof.no:1935/rtplive/_definst_/hessdalen03.stream", "Highway",true,true);
-                IpCamera demo2= new IpCamera("rtsp://170.93.143.139/rtplive/470011e600ef003a004ee33696235daa", "Hessdalen",true,true);
-                newCamera(sessionId,demo1);
-                newCamera(sessionId,demo2);
+                Camera demo1 = new Camera("rtsp://freja.hiof.no:1935/rtplive/_definst_/hessdalen03.stream", "Highway", sessionId);
+                Camera demo2 = new Camera("rtsp://170.93.143.139/rtplive/470011e600ef003a004ee33696235daa", "Hessdalen", sessionId);
+                addCamera(demo1,sessionId);
+                addCamera(demo2,sessionId);
             }
         } catch (CameraAlreadyInSessionException e) {
             System.out.println("ERROR: " + e.getMessage());

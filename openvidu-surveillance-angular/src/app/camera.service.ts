@@ -109,4 +109,19 @@ export class CameraService {
             this.availableIpCameras = JSON.parse(response);
         })
     }
+    deleteCamera(sessionID, cameraName) {
+        const options = {
+            headers: new HttpHeaders({
+                'Authorization': 'Basic ' + btoa('OPENVIDUAPP:' + this.OPENVIDU_SERVER_SECRET),
+                'Content-Type': 'application/json'
+            })
+        };
+        console.log('Deleting ' + cameraName + ' - ' + sessionID);
+        let url = 'https://localhost:8080/session/' + sessionID + '/cameras/' + cameraName;
+        console.log(url);
+        this.httpClient.delete('https://localhost:8080/session/' + sessionID + '/cameras/' + cameraName, options)
+            .subscribe(r => {
+                console.log(r)
+            })
+    }
 }

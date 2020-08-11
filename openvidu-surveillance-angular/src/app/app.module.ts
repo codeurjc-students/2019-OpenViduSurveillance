@@ -11,7 +11,7 @@ import {FooterComponent} from './footer/footer.component';
 import {SessionInfoComponent} from './session-info/session-info.component';
 import {MatListModule} from '@angular/material/list';
 import {MatCardModule} from '@angular/material/card';
-import { AdministrationPanelComponent } from './administration-panel/administration-panel.component';
+import {AdministrationPanelComponent, DeleteDialogComponent} from './administration-panel/administration-panel.component';
 import { MainCameraComponent } from './main-camera/main-camera.component';
 import {MatSelectModule} from '@angular/material/select';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -34,6 +34,7 @@ import {MatDialog, MatDialogModule} from '@angular/material/dialog';
         AdministrationPanelComponent,
         MainCameraComponent,
         CloseDialogComponent,
+        DeleteDialogComponent
     ],
     imports: [
         MatCardModule,
@@ -51,7 +52,7 @@ import {MatDialog, MatDialogModule} from '@angular/material/dialog';
         MatButtonModule
     ],
     /*This line is needed for the popup dialog to work properly because of Ivy disabled*/
-    entryComponents: [CloseDialogComponent],
+    entryComponents: [CloseDialogComponent, DeleteDialogComponent],
     providers: [{provide: APP_BASE_HREF, useValue: '/'}],
     bootstrap: [AppComponent]
 })

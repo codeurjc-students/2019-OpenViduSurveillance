@@ -38,6 +38,13 @@ export class AppComponent implements OnDestroy {
         this.headerSettingsOn = !this.headerSettingsOn
     }
 
+    logOut(state: Boolean) {
+        if (state === false) {
+            this.session = null;
+        }
+    }
+
+
     @HostListener('window:beforeunload')
     beforeunloadHandler() {
         // On window closed leave session
