@@ -124,12 +124,7 @@ nav i.fa:hover {
     border-bottom-right-radius: 4px;
 }
 
-video {
-    width: 100%;
-    height: auto;
-}
-
-#main-video p {
+#deo p {
     position: absolute;
     display: inline-block;
     background: #f8f8f8;

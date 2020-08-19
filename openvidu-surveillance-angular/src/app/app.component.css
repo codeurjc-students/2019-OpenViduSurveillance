@@ -20,7 +20,7 @@ app-footer {
     background-color: rgba(87, 123, 98, 0.4) !important;
     display: grid;
     height: 100%;
-    grid-template-columns: 4fr 1fr;
+    grid-template-columns: 3fr 1fr;
     /*border-top: 2px solid black;*/
 }
 
@@ -37,7 +37,7 @@ div h3 {
 
 /*Camera List*/
 .list-cameras {
-    /*border-left: 2px solid black;*/
+    border-left: rgb(12, 24, 33) solid;
     padding: 0 15px 0 15px;
     position: relative;
 }

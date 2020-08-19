@@ -9,3 +9,8 @@
 label {
     display: inherit;
 }
+
+/*Container for the video miniatures*/
+.stream-container {
+    padding: 2px;
+}

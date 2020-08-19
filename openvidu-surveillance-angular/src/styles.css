@@ -189,7 +189,7 @@ form input {
 video {
     width: 100%;
     max-width: 90%;
-    height: 20%;
+    height: 139px;
 }
 
 
@@ -201,7 +201,7 @@ video {
     border-bottom-right-radius: 4px;
     font-family: 'Libre Baskerville', serif;
     font-weight: 700;
-    font-size: 30px;
+    font-size: 34px;
     color: #1d1a1a;
 }
 
