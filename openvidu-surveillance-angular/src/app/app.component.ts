@@ -85,7 +85,7 @@ export class AppComponent implements OnDestroy {
 
         // 'getToken' method is simulating what your server-side should do.
         // 'token' parameter should be retrieved and returned by your own backend
-        this.getToken2().then(token => {
+        this.getToken().then(token => {
 
             // First param is the token got from OpenVidu Server. Second param can be retrieved by every user on event
             // 'streamCreated' (property Stream.connection.data), and will be appended to DOM as the user's nickname
@@ -173,11 +173,11 @@ export class AppComponent implements OnDestroy {
     //         })
     // }
 
-    getToken2(): Promise<string> {
-        return this.createSession2();
+    getToken(): Promise<string> {
+        return this.createSession();
     }
 
-    createSession2(): Promise<string> {
+    createSession(): Promise<string> {
         return new Promise<string>((res, reject) => {
             const options = {
                 headers: new HttpHeaders({
@@ -190,9 +190,15 @@ export class AppComponent implements OnDestroy {
                         console.log(result);
                         res(result['token']);
                     }
-                    , err => {
-                        console.log(err);
-                        reject(err);
+                    , () => {
+                        console.warn('No connection to OpenVidu Server. ' +
+                            'This may be a certificate error at ' + this.OPENVIDU_SERVER_URL);
+                        if (window.confirm('No connection to OpenVidu Server. ' +
+                            'This may be a certificate error at \"' + this.OPENVIDU_SERVER_URL +
+                            '\"\n\nClick OK to navigate and accept it. If no certificate warning is shown, then check that your OpenVidu Server' +
+                            'is up and running at "' + this.OPENVIDU_SERVER_URL + '"')) {
+                            location.assign(this.OPENVIDU_SERVER_URL + '/accept-certificate');
+                        }
                     });
         })
     }

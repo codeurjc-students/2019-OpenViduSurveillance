@@ -15,7 +15,8 @@ export class CameraService {
     public availableIpCameras: CameraDevice[];
 
     constructor(public httpClient: HttpClient) {
-        this.addLocalCameras();
+        // Method not used right now
+        // this.addLocalCameras();
     }
 
 
