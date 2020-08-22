@@ -1,7 +1,8 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Component, HostListener, OnDestroy} from '@angular/core';
+import {AfterViewInit, Component, HostListener, OnDestroy} from '@angular/core';
 import {OpenVidu, Publisher, Session, StreamEvent, StreamManager, Subscriber} from 'openvidu-browser';
 import {CameraService} from './camera.service';
+import {AlertService} from './_alert';
 
 
 @Component({
@@ -29,9 +30,10 @@ export class AppComponent implements OnDestroy {
     // updated by click event in UserVideoComponent children
     mainStreamManager: StreamManager;
 
+    firstTime = false;
     constructor(private httpClient: HttpClient,
-                public cameraService: CameraService) {
-        this.generateParticipantInfo();
+                public cameraService: CameraService,
+                public alertService: AlertService) {
     }
 
     toSettings(state: Boolean) {
@@ -116,13 +118,29 @@ export class AppComponent implements OnDestroy {
                     // Set the main video in the page to display our webcam and store our Publisher
                     this.mainStreamManager = publisher;
                     this.publisher = publisher;
+                    let options = {
+                        autoClose: true
+                    }
+                    this.alertService.success('Connected', options);
+                    if (this.subscribers.length === 0) {
+                        this.firstTime = true;
+                    }
+                    // this.displayFirstSteps();
+
                 })
                 .catch(error => {
                     console.log('There was an error connecting to the session:', error.code, error.message);
                 });
         });
     }
-
+    displayFirstSteps(): void {
+        if (this.subscribers.length === 0) {
+            let opt = {
+                autoClose: false
+            }
+            this.alertService.info('You dont have any cameras to watch yet, go to settings to add some', opt);
+        }
+    }
     leaveSession() {
 
         // --- 7) Leave the session by calling 'disconnect' method over the Session object ---
@@ -130,20 +148,12 @@ export class AppComponent implements OnDestroy {
         if (this.session) {
             this.session.disconnect();
         }
-
-
         // Empty all properties...
+        this.mySessionId = '';
         this.subscribers = [];
         delete this.publisher;
         delete this.session;
         delete this.OV;
-        this.generateParticipantInfo();
-    }
-
-
-    private generateParticipantInfo() {
-        // Random user nickname and sessionId
-        this.mySessionId = 'SessionA';
     }
 
     private deleteSubscriber(streamManager: StreamManager): void {
@@ -202,5 +212,4 @@ export class AppComponent implements OnDestroy {
                     });
         })
     }
-
 }

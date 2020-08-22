@@ -7,15 +7,18 @@ html {
 header {
     background-color: rgba(38, 65, 69, 0.8) !important;
 }
+
 /*Overwriting no href style*/
 a:not([href]):not([tabindex]) {
-     color: #bbcac0;
+    color: #bbcac0;
     cursor: pointer;
 }
+
 a:not([href]):not([tabindex]):hover {
     transition: color .25s ease-in-out;
     color: rgb(81, 152, 169);
 }
+
 /*Icon styles*/
 nav {
     height: 50px;
@@ -157,6 +160,7 @@ nav i.fa:hover {
     object-fit: cover;
     height: 180px;
 }
+
 /*Pop up dialog */
 .mat-dialog-actions {
     display: block;
@@ -172,8 +176,8 @@ nav i.fa:hover {
 
 #exitButton:hover {
     transition: background-color .5s ease-in-out;
-    background-color: rgba(198, 19, 64, 0.6);
-    color: black!important;
+    background-color: rgba(248, 242, 245, 0.8);
+    color: black !important;
     text-decoration: none;
     font-weight: bold;
 }

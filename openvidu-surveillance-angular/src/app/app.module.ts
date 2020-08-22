@@ -20,7 +20,10 @@ import {APP_BASE_HREF} from '@angular/common';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
-import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import {MatDialogModule} from '@angular/material/dialog';
+
+import { AlertModule } from './_alert';
+
 
 
 @NgModule({
@@ -49,7 +52,8 @@ import {MatDialog, MatDialogModule} from '@angular/material/dialog';
         MatSelectModule,
         AppRoutingModule,
         MatIconModule,
-        MatButtonModule
+        MatButtonModule,
+        AlertModule
     ],
     /*This line is needed for the popup dialog to work properly because of Ivy disabled*/
     entryComponents: [CloseDialogComponent, DeleteDialogComponent],

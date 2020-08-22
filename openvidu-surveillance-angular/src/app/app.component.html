@@ -2,7 +2,6 @@
     <div class="total-container">
         <app-header></app-header>
         <div id="main-container" class="container">
-
             <div id="img-div"><img src="assets/images/openvidu_grey_bg_transp_cropped.png"/></div>
             <div id="join-dialog" class="jumbotron vertical-center-main">
                 <h1>Surveillance<br> session</h1>
@@ -25,17 +24,15 @@
 
 <div *ngIf="session">
     <div class="total-container">
-
         <app-header [session]="true" (settingsOn)="toSettings($event)" (activeSession)="logOut($event)"></app-header>
-
         <div class="demo-cameras" *ngIf="headerSettingsOn; else mainScreen">
-            <h3>Administration panel</h3>
             <app-demo-cameras [sessionId]="mySessionId" [subscribers]="subscribers"></app-demo-cameras>
         </div>
 
         <ng-template #mainScreen>
             <div class="main-container">
                 <div class="main-camera">
+                    <alert (settingsOn)="toSettings($event)" firstTime="firstTime"></alert>
                     <app-main-camera [mainStreamManager]="cameraService.mainStreamManager"></app-main-camera>
                 </div>
                 <div class="list-cameras">
@@ -43,7 +40,6 @@
                 </div>
             </div>
         </ng-template>
-
         <app-footer></app-footer>
     </div>
 </div>

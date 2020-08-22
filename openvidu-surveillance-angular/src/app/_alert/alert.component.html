@@ -1,0 +1,10 @@
+﻿<div *ngFor="let alert of alerts" class="{{cssClass(alert)}}">
+    <div *ngIf="firstTime; else notNew">
+        <a class="close" (click)="removeAlert(alert)">&times;</a>
+        <span><p>Seems like you don't have any cameras, click on <span (click)="settings()"><i class="fa fa-cog alert-icon" aria-hidden="true" ></i></span> to start adding cameras</p></span>
+    </div>
+    <ng-template #notNew>
+        <a class="close" (click)="removeAlert(alert)">&times;</a>
+        <span [innerHTML]="alert.message"></span>
+    </ng-template>
+</div>

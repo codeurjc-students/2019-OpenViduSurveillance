@@ -4,6 +4,8 @@ import {catchError} from 'rxjs/operators';
 import {throwError as observableThrowError} from 'rxjs/internal/observable/throwError';
 import {StreamManager} from 'openvidu-browser';
 import {CameraDevice} from './camera-device';
+import {MatDialog} from '@angular/material/dialog';
+import {AlertService} from './_alert';
 
 @Injectable({
     providedIn: 'root'
@@ -14,35 +16,63 @@ export class CameraService {
     public mainStreamManager: StreamManager;
     public availableIpCameras: CameraDevice[];
 
-    constructor(public httpClient: HttpClient) {
+    constructor(public httpClient: HttpClient, protected alertService: AlertService) {
         // Method not used right now
         // this.addLocalCameras();
     }
 
 
-    publishDemoCameras(mySessionId: string) {
-        JSON.stringify({
-            sessionName: mySessionId
-        });
-        const headers = new HttpHeaders().set('Authorization', 'Basic ' + btoa('OPENVIDUAPP:' + this.OPENVIDU_SERVER_SECRET))
-        const options = {
-            headers: new HttpHeaders({
-                'Authorization': 'Basic ' + btoa('OPENVIDUAPP:' + this.OPENVIDU_SERVER_SECRET),
-                'Content-Type': 'text/plain'
-            }),
-            responseType: 'text'
-        };
-        this.httpClient.post('https://localhost:8080/session/' + mySessionId + '/cameras/demo', {headers}).subscribe(
-            {
-                next(result) {
-                    console.log('Correctly added cameras: ', result);
-                },
-                error(msg) {
-                    console.log(msg);
-                    // alert('Error adding cameras: ' + JSON.parse(msg.error).message);
-                    alert('Error adding cameras: ' + msg.error.message);
-                }
+    publishDemoCameras(sessionId: string) {
+        return new Promise((resolve, reject) => {
+            JSON.stringify({
+                sessionName: sessionId
             });
+            const options = {
+                headers: new HttpHeaders({
+                    'Authorization': 'Basic ' + btoa('OPENVIDUAPP:' + this.OPENVIDU_SERVER_SECRET),
+                    'Content-Type': 'application/json'
+                })
+            };
+            // return this.httpClient.post(this.OPENVIDU_SERVER_URL + '/api/sessions/' + sessionId + '/connection', body, options)
+            let opt = {
+                autoClose: true
+            }
+            return this.httpClient.post('https://localhost:8080/session/' + sessionId + '/cameras/demo', options)
+                .pipe(
+                    catchError(error => {
+                        if (error.status === 409) {
+                            this.alertService.clear();
+                            this.alertService.success('Demo cameras added correctly', opt);
+                            resolve(sessionId);
+                        } else if (error.status === 500) {
+                            // alert('Error adding cameras: ' + JSON.parse(msg.error).message);
+                            this.alertService.clear();
+                            this.alertService.error('Error adding demo cameras, already exist in session', opt);
+                            reject(error);
+                        } else {
+                            console.warn('No connection to OpenVidu Server. ' +
+                                'This may be a certificate error at ' + this.OPENVIDU_SERVER_URL);
+                            if (window.confirm('No connection to OpenVidu Server. ' +
+                                'This may be a certificate error at \"' + this.OPENVIDU_SERVER_URL +
+                                '\"\n\nClick OK to navigate and accept it. If no certificate warning is shown, then check that your OpenVidu Server' +
+                                'is up and running at "' + this.OPENVIDU_SERVER_URL + '"')) {
+                                location.assign(this.OPENVIDU_SERVER_URL + '/accept-certificate');
+                            }
+                        }
+                        return observableThrowError(error.message);
+                    })
+                )
+                .subscribe(() => {
+                    this.alertService.clear();
+                    this.alertService.success('Demo cameras added correctly', opt);
+                });
+        });
+        // JSON.stringify({
+        //     sessionName: mySessionId
+        // });
+        // const headers = new HttpHeaders().set('Authorization', 'Basic ' + btoa('OPENVIDUAPP:' + this.OPENVIDU_SERVER_SECRET))
+        // this.httpClient.post('https://localhost:8080/session/' + mySessionId + '/cameras/demo', {headers});
+
     }
 
     publishIpCamera(sessionId, rtspUri, cameraName, adaptativeBitrate, onlyPlayWhenSubscribers) {
@@ -110,6 +140,7 @@ export class CameraService {
             this.availableIpCameras = JSON.parse(response);
         })
     }
+
     deleteCamera(sessionID, cameraName) {
         const options = {
             headers: new HttpHeaders({
