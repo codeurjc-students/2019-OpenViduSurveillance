@@ -23,14 +23,6 @@ public class DatabaseController {
         this.cameraRepository = cameraRepository;
     }
 
-//    @PostMapping("/camera")
-//    public String addNewCamera(@RequestBody String url) {
-//        Camera camera = new Camera(url);
-//        cameraRepository.save(camera);
-//        return camera.toString();
-//    }
-
-
     @PostMapping("/localCameras")
     public String discoverCameras(@RequestBody String sessionName) {
         Future future = discover(sessionName);
