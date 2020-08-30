@@ -34,9 +34,6 @@ export class AlertComponent implements OnInit, OnDestroy {
                     this.alerts.forEach(x => delete x.keepAfterRouteChange);
                     return;
                 }
-                if (this.firstTime) {
-                    alert.autoClose = false;
-                }
                 // add alert to array
                 this.alerts.push(alert);
 
