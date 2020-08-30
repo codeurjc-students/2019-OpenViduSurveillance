@@ -1,0 +1,49 @@
+version: '3.5'
+
+services: # Here we define our service(s)
+  mysql-service:
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: openviduDB
+      # So you don't have to use root, but you can if you like
+      MYSQL_USER: root
+      # You can use whatever password you like
+      MYSQL_PASSWORD: root
+      # Password for root access
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      # <Port exposed> : < MySQL Port running inside container>
+      - 3306:3306
+    expose:
+      # Opens port 3306 on the container
+      - 3306
+      # Where our data will be persistent
+
+  spring-service:
+    container_name: OpenViduBack
+    build: ./OpenViduBackend
+    restart: always
+    links:
+      - mysql-service
+    depends_on:
+      - mysql-service
+    ports:
+      - '8080:8080' # Port mapping
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-service/openviduDB?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
+      SPRING_JPA_HIBERNATE_DDL-AUTO: update
+
+  angular-service: # The name of the service
+    container_name: OpenViduFront  # Container name
+    build: ./openvidu-surveillance-angular/dist # Location of our Dockerfile or dist folder
+    #    volumes: # Volume binding
+    #      - './angulardockerproject:/usr/src/app'
+    ports:
+      - '4200:80' # Port mapping
+#    command: >
+#      bash -c "npm install && ng serve --host 0.0.0.0 --port 4200"
+
