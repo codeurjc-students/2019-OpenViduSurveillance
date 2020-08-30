@@ -30,7 +30,7 @@ import {StreamManager} from 'openvidu-browser';
     template: `
         <div>
             <div><p>{{cameraName}}</p></div>
-            <ov-video [streamManager]="streamManager"></ov-video>
+            <ov-video [mainCamera]="mainCamera" [streamManager]="streamManager"></ov-video>
         </div>`
 })
 export class UserVideoComponent implements OnInit {
@@ -39,6 +39,8 @@ export class UserVideoComponent implements OnInit {
     streamManager: StreamManager;
     @Input()
     cameraName: string;
+    @Input()
+    mainCamera: Boolean;
 
     getNicknameTag() { // Gets the nickName of the user
         return JSON.parse(this.streamManager.stream.connection.data).clientData;

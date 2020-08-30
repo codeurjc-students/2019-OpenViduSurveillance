@@ -22,9 +22,9 @@ export class SessionInfoComponent implements OnInit {
     }
 
     ngOnInit() {
-       this.sessionInfoService.getSessionInfo(this.sessionId).subscribe(response => {
-            this.session = JSON.parse(response)
-       }, error => console.log(error));
+       // this.sessionInfoService.getSessionInfo(this.sessionId).subscribe(response => {
+       //      this.session = JSON.parse(response)
+       // }, error => console.log(error));
     }
 
     updateMainStreamManager(streamManager: StreamManager) {

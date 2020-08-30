@@ -15,6 +15,9 @@ export class CameraService {
     private OPENVIDU_SERVER_URL = 'https://localhost:8080/';
     public mainStreamManager: StreamManager;
     public availableIpCameras: CameraDevice[];
+    public autoCloseAlert = {
+        autoClose: true
+    }
 
     constructor(public httpClient: HttpClient, protected alertService: AlertService) {
         // Method not used right now
@@ -27,52 +30,48 @@ export class CameraService {
             JSON.stringify({
                 sessionName: sessionId
             });
+            const body = JSON.stringify({
+                rtspUri: 'rtspUri', data: 'cameraName', adaptativeBitrate: 'adaptativeBitrate',
+                onlyPlayWithSubscribers: 'onlyPlayWhenSubscribers'
+            });
             const options = {
                 headers: new HttpHeaders({
-                    'Authorization': 'Basic ' + btoa('OPENVIDUAPP:' + this.OPENVIDU_SERVER_SECRET),
+                    'Authorization': 'Basic ' + btoa('USER:' + 'Surveillance'),
                     'Content-Type': 'application/json'
                 })
             };
             // return this.httpClient.post(this.OPENVIDU_SERVER_URL + '/api/sessions/' + sessionId + '/connection', body, options)
-            let opt = {
-                autoClose: true
-            }
-            return this.httpClient.post('https://localhost:8080/session/' + sessionId + '/cameras/demo', options)
-                .pipe(
-                    catchError(error => {
-                        if (error.status === 409) {
-                            this.alertService.clear();
-                            this.alertService.success('Demo cameras added correctly', opt);
-                            resolve(sessionId);
-                        } else if (error.status === 500) {
-                            // alert('Error adding cameras: ' + JSON.parse(msg.error).message);
-                            this.alertService.clear();
-                            this.alertService.error('Error adding demo cameras, already exist in session', opt);
-                            reject(error);
-                        } else {
-                            console.warn('No connection to OpenVidu Server. ' +
-                                'This may be a certificate error at ' + this.OPENVIDU_SERVER_URL);
-                            if (window.confirm('No connection to OpenVidu Server. ' +
-                                'This may be a certificate error at \"' + this.OPENVIDU_SERVER_URL +
-                                '\"\n\nClick OK to navigate and accept it. If no certificate warning is shown, then check that your OpenVidu Server' +
-                                'is up and running at "' + this.OPENVIDU_SERVER_URL + '"')) {
-                                location.assign(this.OPENVIDU_SERVER_URL + '/accept-certificate');
-                            }
-                        }
-                        return observableThrowError(error.message);
-                    })
-                )
+
+            return this.httpClient.post('https://localhost:8080/session/' + sessionId + '/cameras/demo', body, options)
+                // .pipe(
+                //     catchError(error => {
+                //         if (error.status === 409) {
+                //             this.alertService.clear();
+                //             this.alertService.success('Demo cameras added correctly', this.autoCloseAlert);
+                //             resolve(sessionId);
+                //         } else if (error.status === 500) {
+                //             // alert('Error adding cameras: ' + JSON.parse(msg.error).message);
+                //             this.alertService.clear();
+                //             this.alertService.error('Error adding demo cameras, already exist in session', this.autoCloseAlert);
+                //             reject(error);
+                //         } else {
+                //             console.warn('No connection to OpenVidu Server. ' +
+                //                 'This may be a certificate error at ' + this.OPENVIDU_SERVER_URL);
+                //             if (window.confirm('No connection to OpenVidu Server. ' +
+                //                 'This may be a certificate error at \"' + this.OPENVIDU_SERVER_URL +
+                //                 '\"\n\nClick OK to navigate and accept it. If no certificate warning is shown, then check that your OpenVidu Server' +
+                //                 'is up and running at "' + this.OPENVIDU_SERVER_URL + '"')) {
+                //                 location.assign(this.OPENVIDU_SERVER_URL + '/accept-certificate');
+                //             }
+                //         }
+                //         return observableThrowError(error.message);
+                //     })
+                // )
                 .subscribe(() => {
                     this.alertService.clear();
-                    this.alertService.success('Demo cameras added correctly', opt);
+                    this.alertService.success('Demo cameras added correctly', this.autoCloseAlert);
                 });
         });
-        // JSON.stringify({
-        //     sessionName: mySessionId
-        // });
-        // const headers = new HttpHeaders().set('Authorization', 'Basic ' + btoa('OPENVIDUAPP:' + this.OPENVIDU_SERVER_SECRET))
-        // this.httpClient.post('https://localhost:8080/session/' + mySessionId + '/cameras/demo', {headers});
-
     }
 
     publishIpCamera(sessionId, rtspUri, cameraName, adaptativeBitrate, onlyPlayWhenSubscribers) {
@@ -84,12 +83,11 @@ export class CameraService {
             });
             const options = {
                 headers: new HttpHeaders({
-                    'Authorization': 'Basic ' + btoa('OPENVIDUAPP:' + this.OPENVIDU_SERVER_SECRET),
+                    'Authorization': 'Basic ' + btoa('USER:' + 'Surveillance'),
                     'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': '*'
                 })
             };
-            // return this.httpClient.post(this.OPENVIDU_SERVER_URL + '/api/sessions/' + sessionId + '/connection', body, options)
             return this.httpClient.post('https://localhost:8080/session/' + sessionId + '/camera', body, options)
                 .pipe(
                     catchError(error => {
@@ -98,8 +96,8 @@ export class CameraService {
                             resolve(sessionId);
                         } else if (error.status === 500) {
                             console.log(error);
-                            // alert('Error adding cameras: ' + JSON.parse(msg.error).message);
-                            alert('Error adding cameras: ' + error.error.message);
+                            this.alertService.clear();
+                            this.alertService.error(error.error.message, this.autoCloseAlert);
                         } else {
                             console.warn('No connection to OpenVidu Server. ' +
                                 'This may be a certificate error at ' + this.OPENVIDU_SERVER_URL);
@@ -114,7 +112,6 @@ export class CameraService {
                     })
                 )
                 .subscribe(response => {
-                    console.log(response);
                     resolve(response['id']);
                 });
         });
@@ -144,7 +141,7 @@ export class CameraService {
     deleteCamera(sessionID, cameraName) {
         const options = {
             headers: new HttpHeaders({
-                'Authorization': 'Basic ' + btoa('OPENVIDUAPP:' + this.OPENVIDU_SERVER_SECRET),
+                'Authorization': 'Basic ' + btoa('USER:' + 'Surveillance'),
                 'Content-Type': 'application/json'
             })
         };
@@ -152,8 +149,8 @@ export class CameraService {
         let url = 'https://localhost:8080/session/' + sessionID + '/cameras/' + cameraName;
         console.log(url);
         this.httpClient.delete('https://localhost:8080/session/' + sessionID + '/cameras/' + cameraName, options)
-            .subscribe(r => {
-                console.log(r)
+            .subscribe(next => {
+                console.log(next)
             })
     }
 }

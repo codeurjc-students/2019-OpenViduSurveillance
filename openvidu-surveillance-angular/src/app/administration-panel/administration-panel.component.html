@@ -1,9 +1,9 @@
 <alert></alert>
-<h3>Administration panel</h3>
+<h1>Administration panel</h1>
 <div class="grid">
     <div id="up-grid">
         <div class="configuration-box">
-            <h4>Local camera configuration</h4>
+            <h4>Local cameras</h4>
             <div *ngIf="devices; else noLocalCameras">
                 <mat-form-field>
                     <mat-label>Select an option</mat-label>
@@ -19,7 +19,7 @@ true)">Add selected camera
                 </div>
             </div>
             <ng-template #noLocalCameras>
-<!--                Botón para descubrir cámaras-->
+                <!--                Botón para descubrir cámaras-->
                 <p> No local cameras available at this moment </p>
             </ng-template>
         </div>
@@ -39,7 +39,7 @@ true)">Add selected camera
         </div>
     </div>
     <div class="configuration-box new-camera">
-        <h4>Add new camera</h4>
+        <h4>Add cameras</h4>
         <mat-form-field>
             <mat-label>Custom camera name</mat-label>
             <input matInput type="text" [(ngModel)]="cameraName">
@@ -52,27 +52,8 @@ true)">Add selected camera
             cameraUrl,cameraName,true,
             true)">Add selected camera
         </button>
-        <!--        This form is for local cameras-->
-        <!--        <mat-form-field>-->
-        <!--            <mat-label>Enter camera user</mat-label>-->
-        <!--            <input matInput type="text">-->
-        <!--        </mat-form-field>-->
-
-        <!--        <mat-form-field>-->
-        <!--            <mat-label>Enter camera password</mat-label>-->
-        <!--            <input matInput [type]="hide ? 'password' : 'text'">-->
-        <!--            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"-->
-        <!--                    [attr.aria-pressed]="hide">-->
-        <!--                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>-->
-        <!--            </button>-->
-        <!--        </mat-form-field>-->
-
-        <!--        <mat-form-field>-->
-        <!--            <mat-label>Enter camera port</mat-label>-->
-        <!--            <input matInput type="number">-->
-        <!--        </mat-form-field>-->
+        <button (click)="cameraService.publishDemoCameras(sessionId)" class="btn btn-lg btn-success">
+            Add demo cameras
+        </button>
     </div>
 </div>
-<button (click)="cameraService.publishDemoCameras(sessionId)" class="addCameraButton btn btn-lg btn-success">
-    Add demo cameras
-</button>

@@ -73,4 +73,9 @@ div h3 {
     font-size: 32px;
 }
 
+/*Error message*/
+#input-error {
+    color: red;
+    display: none;
+}
 

@@ -25,7 +25,8 @@ export class MainCameraComponent implements OnInit {
         let formData = new FormData();
         formData.append('user', 'admin');
         formData.append('password', 'admin');
-        this.httpClient.post('https://localhost:8080/ptz/' + this.ipUrl + '/' + direction, formData, {responseType: 'text'}).subscribe(res => {
+        this.httpClient.post('https://localhost:8080/ptz/' + this.ipUrl + '/' + direction, formData,
+            {responseType: 'text'}).subscribe(res => {
             console.log(JSON.parse(res));
         })
     }

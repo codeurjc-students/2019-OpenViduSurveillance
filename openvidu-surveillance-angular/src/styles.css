@@ -65,7 +65,7 @@ nav i.fa:hover {
 .vertical-center-main {
     background-color: rgba(45, 99, 105, 0.7) !important;
     position: absolute;
-    top: 52%;
+    top: 45%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
@@ -88,6 +88,7 @@ input.btn {
 .btn {
     font-weight: bold !important;
     margin-bottom: 5px;
+    margin-top: 15px;
 }
 
 .btn-success {
@@ -142,12 +143,12 @@ input.btn {
 /*    filter: brightness(0.7);*/
 /*}*/
 
-#img-div {
+.img-div {
     text-align: center;
     margin-top: 3vh;
 }
 
-#img-div img {
+.img-div img {
     height: 15%;
 }
 

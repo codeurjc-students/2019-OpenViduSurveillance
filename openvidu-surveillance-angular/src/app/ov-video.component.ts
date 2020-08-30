@@ -1,15 +1,25 @@
-import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { StreamManager } from 'openvidu-browser';
+import {AfterViewInit, Component, ElementRef, Input, ViewChild} from '@angular/core';
+import {StreamManager} from 'openvidu-browser';
 
 @Component({
     selector: 'ov-video',
-    template: '<video #videoElement></video>'
+    template: `
+        <div *ngIf="mainCamera; else mini">
+            <video #videoElement poster="../assets/gifs/Spinner-XL.gif"></video>
+        </div>
+        <ng-template #mini>
+            <video #videoElement poster="../assets/gifs/Spinner-M.gif"></video>
+        </ng-template>
+    `
+
 })
 export class OpenViduVideoComponent implements AfterViewInit {
 
-    @ViewChild('videoElement', { static: false }) elementRef: ElementRef;
+    @ViewChild('videoElement', {static: false}) elementRef: ElementRef;
 
     _streamManager: StreamManager;
+
+    @Input() mainCamera: Boolean;
 
     ngAfterViewInit() {
         this._streamManager.addVideoElement(this.elementRef.nativeElement);

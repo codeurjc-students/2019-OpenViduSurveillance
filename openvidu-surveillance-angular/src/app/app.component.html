@@ -1,46 +1,83 @@
-<div *ngIf="!session" id="join">
+<div *ngIf="logged; else login">
+
+    <div *ngIf="!correctSession" id="join">
+        <div class="total-container">
+            <app-header></app-header>
+            <div id="main-container" class="container">
+                <div class="img-div"><img src="assets/images/openvidu_grey_bg_transp_cropped.png"/></div>
+                <alert></alert>
+
+                <div id="join-dialog" class="jumbotron vertical-center-main">
+                    <h1>Surveillance<br> session</h1>
+                    <form class="form-group" (submit)="joinSession()">
+                        <p>
+                            <label>Enter a session name</label>
+                            <label for="sessionId"></label><input class="form-control" type="text" id="sessionId"
+                                                                  name="sessionId" [(ngModel)]="mySessionId"
+                                                                  required>
+                        </p>
+                        <p id="input-error"> Session name can only contain numbers and letters </p>
+                        <p class="text-center">
+                            <input class="btn btn-lg btn-success" type="submit" name="commit" value="Join!">
+                        </p>
+                    </form>
+                </div>
+            </div>
+            <app-footer></app-footer>
+        </div>
+    </div>
+
+    <div *ngIf="correctSession">
+        <div class="total-container">
+            <app-header [session]="true" (settingsOn)="toSettings()"
+                        (activeSession)="logOut($event)"></app-header>
+            <div class="demo-cameras" *ngIf="headerSettingsOn; else mainScreen">
+                <app-demo-cameras [sessionId]="mySessionId" [subscribers]="subscribers"></app-demo-cameras>
+            </div>
+
+            <ng-template #mainScreen>
+                <div class="main-container">
+                    <div class="main-camera">
+                        <alert (settingsOn)="toSettings()" [firstTime]="firstTime"></alert>
+                        <app-main-camera [mainStreamManager]="cameraService.mainStreamManager"></app-main-camera>
+                    </div>
+                    <div class="list-cameras">
+                        <app-session-info [subscribers]="subscribers" [sessionId]="mySessionId"></app-session-info>
+                    </div>
+                </div>
+            </ng-template>
+            <app-footer></app-footer>
+        </div>
+    </div>
+
+</div>
+
+<ng-template #login>
     <div class="total-container">
         <app-header></app-header>
-        <div id="main-container" class="container">
-            <div id="img-div"><img src="assets/images/openvidu_grey_bg_transp_cropped.png"/></div>
-            <div id="join-dialog" class="jumbotron vertical-center-main">
-                <h1>Surveillance<br> session</h1>
-                <form class="form-group" (submit)="joinSession()">
+        <div id="login-container" class="container">
+            <alert></alert>
+
+            <div id="login-dialog" class="jumbotron vertical-center-main">
+                <h1>OpenVidu<br>Surveillance</h1>
+                <form class="form-group" (submit)="authenticate()">
                     <p>
-                        <label>Session</label>
-                        <label for="sessionId"></label><input class="form-control" type="text" id="sessionId"
-                                                              name="sessionId" [(ngModel)]="mySessionId"
-                                                              required>
+                        <label>Username</label>
+                        <label for="userName"></label><input class="form-control" type="text" id="userName"
+                                                             name="sessionId" [(ngModel)]="userName"
+                                                             required>
+                        <label>Password</label>
+                        <label for="password"></label><input class="form-control" type="password" id="password"
+                                                             name="sessionId" [(ngModel)]="password"
+                                                             required>
                     </p>
                     <p class="text-center">
-                        <input class="btn btn-lg btn-success" type="submit" name="commit" value="Join!">
+                        <input class="btn btn-lg btn-success" type="submit" name="commit" value="Login">
                     </p>
                 </form>
             </div>
         </div>
         <app-footer></app-footer>
     </div>
-</div>
 
-<div *ngIf="session">
-    <div class="total-container">
-        <app-header [session]="true" (settingsOn)="toSettings($event)" (activeSession)="logOut($event)"></app-header>
-        <div class="demo-cameras" *ngIf="headerSettingsOn; else mainScreen">
-            <app-demo-cameras [sessionId]="mySessionId" [subscribers]="subscribers"></app-demo-cameras>
-        </div>
-
-        <ng-template #mainScreen>
-            <div class="main-container">
-                <div class="main-camera">
-                    <alert (settingsOn)="toSettings($event)" firstTime="firstTime"></alert>
-                    <app-main-camera [mainStreamManager]="cameraService.mainStreamManager"></app-main-camera>
-                </div>
-                <div class="list-cameras">
-                    <app-session-info [subscribers]="subscribers" [sessionId]="mySessionId"></app-session-info>
-                </div>
-            </div>
-        </ng-template>
-        <app-footer></app-footer>
-    </div>
-</div>
-
+</ng-template>
