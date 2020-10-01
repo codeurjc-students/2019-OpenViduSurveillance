@@ -52,10 +52,6 @@ nav {
     font-size: 32px;
 }
 
-/*.nav-icon:hover {*/
-/*    color: rgb(81, 152, 169);*/
-/*}*/
-
 nav a {
     color: #ccc !important;
 }
@@ -73,6 +69,7 @@ nav i.fa:hover {
     color: #a9a9a9;
 }
 
+/*Form display*/
 .form-control {
     color: #0088aa;
     font-weight: bold;
@@ -162,13 +159,10 @@ nav i.fa:hover {
 }
 
 /*Pop up dialog */
-.mat-dialog-actions {
-    display: block;
-    margin: 5px auto;
-    text-align: center;
 
+button {
+    margin: 0 auto;
 }
-
 #exitButton {
     color: black;
     text-decoration: none;
@@ -176,7 +170,7 @@ nav i.fa:hover {
 
 #exitButton:hover {
     transition: background-color .5s ease-in-out;
-    background-color: rgba(248, 242, 245, 0.8);
+    background-color: rgba(236, 188, 192, 0.8);
     color: black !important;
     text-decoration: none;
     font-weight: bold;
@@ -184,6 +178,9 @@ nav i.fa:hover {
 
 /* xs ans md screen resolutions*/
 
-@media screen and (max-width: 991px) {
-    /*noinspection CssUnusedSymbol*/
+@media screen and (max-width: 768px) {
+    #header-logo {
+        display: inline-block;
+        width: 100%;
+    }
 }

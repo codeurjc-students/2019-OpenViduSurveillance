@@ -1,6 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
-import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-header',
@@ -11,8 +10,9 @@ export class HeaderComponent {
     @Output() settingsOn = new EventEmitter<Boolean>();
     @Output() activeSession = new EventEmitter<Boolean>();
     @Input() session: Boolean;
+    @Input() logged: Boolean;
 
-    constructor(public dialog: MatDialog, public router: Router) {
+    constructor(public dialog: MatDialog) {
     }
 
     settings() {
@@ -27,7 +27,7 @@ export class HeaderComponent {
     }
 
     openDialog() {
-        const dialog = this.dialog.open(CloseDialogComponent);
+        this.dialog.open(CloseDialogComponent);
     }
 }
 

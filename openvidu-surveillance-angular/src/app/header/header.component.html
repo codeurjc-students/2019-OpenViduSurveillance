@@ -29,8 +29,9 @@
 <header>
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/"><img class="demo-logo"
-                                                  src="assets/images/openvidu_vert_white_bg_trans_cropped.png"/>
+            <a class="navbar-brand" href="/" id="header-logo"><img class="demo-logo"
+                                                                   src="assets/images/openvidu_vert_white_bg_trans_cropped.png"
+                                                                   alt="OpenVidu logo"/>
                 Surveillance</a>
 
             <a class="navbar-brand nav-icon"
@@ -39,10 +40,14 @@
             <a class="navbar-brand nav-icon" href="https://docs.openvidu.io/en/2.14.0/"
                title="Documentation" target="_blank"><i class="fa fa-book" aria-hidden="true"></i></a>
             <div *ngIf="session">
-                <a class="navbar-brand nav-icon" title="Settings" (click)="settings()"><i id="settingsButton" class="fa fa-cog" aria-hidden="true"></i></a>
+                <a class="navbar-brand nav-icon" title="Settings" (click)="settings()"><i id="settingsButton"
+                                                                                          class="fa fa-cog"
+                                                                                          aria-hidden="true"></i></a>
             </div>
-            <a class="navbar-brand nav-icon" title="Sign out" (click)="openDialog()"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
-
+            <div *ngIf="logged">
+                <a class="navbar-brand nav-icon" title="Sign out" (click)="openDialog()"><i class="fa fa-sign-out"
+                                                                                            aria-hidden="true"></i></a>
+            </div>
         </div>
     </div>
 </header>
