@@ -2,9 +2,10 @@
 
     <div *ngIf="!correctSession" id="join">
         <div class="total-container">
-            <app-header></app-header>
+            <app-header [logged]="true"></app-header>
             <div id="main-container" class="container">
-                <div class="img-div"><img src="assets/images/openvidu_grey_bg_transp_cropped.png"/></div>
+                <div class="img-div"><img src="assets/images/openvidu_grey_bg_transp_cropped.png" alt="Openvidu logo"/>
+                </div>
                 <alert></alert>
 
                 <div id="join-dialog" class="jumbotron vertical-center-main">
@@ -14,9 +15,8 @@
                             <label>Enter a session name</label>
                             <label for="sessionId"></label><input class="form-control" type="text" id="sessionId"
                                                                   name="sessionId" [(ngModel)]="mySessionId"
-                                                                  required>
+                                                                  required autofocus>
                         </p>
-                        <p id="input-error"> Session name can only contain numbers and letters </p>
                         <p class="text-center">
                             <input class="btn btn-lg btn-success" type="submit" name="commit" value="Join!">
                         </p>
@@ -30,7 +30,7 @@
     <div *ngIf="correctSession">
         <div class="total-container">
             <app-header [session]="true" (settingsOn)="toSettings()"
-                        (activeSession)="logOut($event)"></app-header>
+                        (activeSession)="logOut($event)" [logged]="true"></app-header>
             <div class="demo-cameras" *ngIf="headerSettingsOn; else mainScreen">
                 <app-demo-cameras [sessionId]="mySessionId" [subscribers]="subscribers"></app-demo-cameras>
             </div>
@@ -39,10 +39,12 @@
                 <div class="main-container">
                     <div class="main-camera">
                         <alert (settingsOn)="toSettings()" [firstTime]="firstTime"></alert>
-                        <app-main-camera [mainStreamManager]="cameraService.mainStreamManager"></app-main-camera>
+                        <app-main-camera [mainStreamManager]="cameraService.mainStreamManager"
+                                         [sessionName]="mySessionId"></app-main-camera>
                     </div>
                     <div class="list-cameras">
-                        <app-session-info [subscribers]="subscribers" [sessionId]="mySessionId"></app-session-info>
+                        <app-session-cameras [subscribers]="subscribers"
+                                             [sessionId]="mySessionId"></app-session-cameras>
                     </div>
                 </div>
             </ng-template>
@@ -54,8 +56,10 @@
 
 <ng-template #login>
     <div class="total-container">
-        <app-header></app-header>
+        <app-header [logged]="false"></app-header>
         <div id="login-container" class="container">
+            <div class="img-div"><img src="assets/images/openvidu_grey_bg_transp_cropped.png" alt="Openvidu logo"/>
+            </div>
             <alert></alert>
 
             <div id="login-dialog" class="jumbotron vertical-center-main">

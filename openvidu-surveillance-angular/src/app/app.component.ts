@@ -1,11 +1,12 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {AfterViewInit, Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import {OpenVidu, Publisher, Session, StreamEvent, StreamManager, Subscriber} from 'openvidu-browser';
-import {CameraService} from './camera.service';
+import {Component, HostListener, OnDestroy} from '@angular/core';
+import {OpenVidu, Session, StreamEvent, StreamManager, Subscriber} from 'openvidu-browser';
+import {CameraService} from './services/camera.service';
 import {AlertService} from './_alert';
 import {catchError} from 'rxjs/operators';
 import {throwError as observableThrowError} from 'rxjs/internal/observable/throwError';
 import {Observable} from 'rxjs';
+import {environment} from '../environments/environment';
 
 
 @Component({
@@ -20,32 +21,27 @@ export class AppComponent implements OnDestroy {
     password: String;
 
     headerSettingsOn: Boolean = false;
-
-    OPENVIDU_SERVER_URL = 'https://' + location.hostname + ':4443';
     OPENVIDU_SERVER_SECRET = 'MY_SECRET';
-
     // OpenVidu objects
     OV: OpenVidu;
     session: Session;
     correctSession: Boolean = false;
     publisher: StreamManager; // Local
     subscribers: StreamManager[] = []; // Remotes
-
     // Join form
     mySessionId: string;
-
     // Variable to display "tutorial" message
     firstTime: Boolean = true;
     options = {
         autoClose: !this.firstTime
     }
+    private backendUrl = environment.OPENVIDUSURVEILLANCE_BACKEND_URL;
 
     constructor(private httpClient: HttpClient,
                 public cameraService: CameraService,
                 public alertService: AlertService) {
 
     }
-
 
     toSettings() {
         this.headerSettingsOn = !this.headerSettingsOn
@@ -54,6 +50,7 @@ export class AppComponent implements OnDestroy {
     logOut(state: Boolean) {
         if (state === false) {
             this.session = null;
+            this.logged = false;
         }
     }
 
@@ -70,21 +67,21 @@ export class AppComponent implements OnDestroy {
     }
 
     authenticate() {
-        this.httpClient.get<Observable<boolean>>('https://localhost:8080/login', {
+        this.httpClient.get<Observable<boolean>>(this.backendUrl + 'login', {
             headers: new HttpHeaders({
                 'Authorization': 'Basic ' + btoa(this.userName + ':' + this.password),
                 'Content-type': 'application/x-www-form-urlencoded',
             })
         })
             .pipe(
-            catchError(error => {
-                if (error.status === 401) {
-                    this.alertService.clear();
-                    this.alertService.error('Authentication failed, check your username and/or password')
-                }
-                return observableThrowError(error.message);
-            })
-        ).subscribe(isValid => {
+                catchError(error => {
+                    if (error.status === 401) {
+                        this.alertService.clear();
+                        this.alertService.error('Authentication failed, check your username and/or password')
+                    }
+                    return observableThrowError(error.message);
+                })
+            ).subscribe(isValid => {
             if (isValid) {
                 this.alertService.success('Welcome ' + this.userName);
                 sessionStorage.setItem(
@@ -99,13 +96,6 @@ export class AppComponent implements OnDestroy {
     }
 
     joinSession() {
-        // Check if the session name is valid
-        let regExp = '([A-Za-z0-9 -])+$'
-        // if (!this.mySessionId.match(regExp)) {
-        //     console.log('Sesion no valida')
-        //     document.getElementById('input-error').style.display = 'block';
-        //     return;
-        // }
         console.log('Sesion creada correctamente');
         // --- 1) Get an OpenVidu object ---
         this.OV = new OpenVidu();
@@ -162,10 +152,7 @@ export class AppComponent implements OnDestroy {
         delete this.OV;
     }
 
-    deleteSubscriber(streamManager
-                         :
-                         StreamManager
-    ):
+    deleteSubscriber(streamManager: StreamManager):
         void {
         let index = this.subscribers.indexOf(streamManager, 0);
         if (index > -1
@@ -174,22 +161,11 @@ export class AppComponent implements OnDestroy {
         }
     }
 
-    /*
-     * This behavior MUST BE IN YOUR SERVER-SIDE IN PRODUCTION. In this case:
-     *   1) Initialize a session in OpenVidu Server     (POST /api/sessions)
-     *   2) Generate a token in OpenVidu Server           (POST /api/tokens)
-     *   3) The token must be consumed in Session.connect() method of OpenVidu Browser
-     */
-
-    getToken()
-        :
-        Promise<string> {
+    getToken(): Promise<string> {
         return this.createSession();
     }
 
-    createSession()
-        :
-        Promise<string> {
+    createSession(): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             let opt = {
                 autoClose: true
@@ -200,14 +176,14 @@ export class AppComponent implements OnDestroy {
                     'Content-type': 'application/x-www-form-urlencoded',
                 })
             }
-            return this.httpClient.get('https://localhost:8080/session/' + this.mySessionId, options)
+            return this.httpClient.get(this.backendUrl + 'session/' + this.mySessionId, options)
                 .pipe(
                     catchError(error => {
                         if (error.status === 202) {
                             resolve();
                         } else if (error.status === 500) {
                             this.alertService.clear();
-                            this.alertService.error('Error adding demo cameras, already exist in session', opt);
+                            this.alertService.error('There was an error with  your server', opt);
                             reject(error);
                         } else if (error.status === 400) {
                             this.alertService.clear();
@@ -217,12 +193,12 @@ export class AppComponent implements OnDestroy {
                         } else {
                             console.log(error)
                             console.warn('No connection to OpenVidu Server. ' +
-                                'This may be a certificate error at ' + this.OPENVIDU_SERVER_URL);
+                                'This may be a certificate error at ' + this.backendUrl);
                             if (window.confirm('No connection to OpenVidu Server. ' +
-                                'This may be a certificate error at \"' + this.OPENVIDU_SERVER_URL +
+                                'This may be a certificate error at \"' + this.backendUrl +
                                 '\"\n\nClick OK to navigate and accept it. If no certificate warning is shown, then check that your OpenVidu Server' +
-                                'is up and running at "' + this.OPENVIDU_SERVER_URL + '"')) {
-                                location.assign(this.OPENVIDU_SERVER_URL + '/accept-certificate');
+                                'is up and running at "' + this.backendUrl + '"')) {
+                                location.assign(this.backendUrl + '/accept-certificate');
                             }
                         }
                         resolve();

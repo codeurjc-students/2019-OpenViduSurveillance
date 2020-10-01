@@ -40,12 +40,14 @@ div h3 {
     border-left: rgb(12, 24, 33) solid;
     padding: 0 15px 0 15px;
     position: relative;
+    max-height: 88vh;
+    overflow: auto;
 }
 
 
-/* Join dialog */
-#join-dialog {
-    max-width: 40%;
+/* Join and login dialogs */
+#join-dialog, #login-dialog {
+    max-width: 60%;
     padding: 30px 40px 30px 40px;
 }
 
@@ -61,7 +63,7 @@ div h3 {
 .jumbotron h1, h2, h3, h4, h5, h6 {
     font-family: 'Libre Baskerville', serif;
     font-weight: 700;
-    font-size: 55px;
+    font-size: 50px;
     color: #1d1a1a;
 }
 
@@ -73,9 +75,52 @@ div h3 {
     font-size: 32px;
 }
 
-/*Error message*/
-#input-error {
-    color: red;
-    display: none;
+/*Main Camera*/
+.main-camera {
+    max-height: 90%;
 }
 
+/*Responsive layout*/
+@media all and (max-width: 1200px) {
+    /*Title*/
+    .jumbotron h1, h2, h3, h4, h5, h6 {
+        font-size: 40px;
+    }
+
+}
+
+@media all and (max-width: 1024px) {
+    /*Camera display for smaller screens*/
+    .main-container {
+        grid-area: main;
+        background-color: rgba(87, 123, 98, 0.4) !important;
+        display: grid;
+        /* height: 100%; */
+        grid-template-rows: 3fr 1fr;
+        grid-template-columns: none;
+    }
+}
+
+@media all and (max-width: 768px) {
+    /*Title*/
+    .jumbotron h1, h2, h3, h4, h5, h6 {
+        font-size: 35px;
+    }
+
+    .list-cameras {
+        max-height: 150px;
+        border: none;
+    }
+}
+
+@media all and (max-width: 500px) {
+    /*Title*/
+    .jumbotron h1, h2, h3, h4, h5, h6 {
+        font-size: 30px;
+    }
+
+    /* Join and login dialogs */
+    #join-dialog, #login-dialog {
+        max-width: 100%;
+    }
+}
