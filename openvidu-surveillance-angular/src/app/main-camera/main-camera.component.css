@@ -1,13 +1,19 @@
 #main-video {
     margin: 15px auto;
-    float:none;
+    float: none;
 }
 
 .ptzControls {
     width: fit-content;
     margin: 0 auto;
+    user-select: none;
 }
 
 .material-icons {
-    font-size: 50px;
+    font-size: 80px;
+    border: solid #264145;
+    margin: 25px 5px 5px;
+    cursor: pointer;
+    background-color: #264145;
+    color: #93aa9a;
 }
