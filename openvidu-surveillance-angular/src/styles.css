@@ -55,17 +55,10 @@ nav i.fa:hover {
     padding-bottom: 20px;
 }
 
-.vertical-center {
-    position: absolute;
-    top: 56%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
 .vertical-center-main {
     background-color: rgba(45, 99, 105, 0.7) !important;
-    position: absolute;
-    top: 45%;
+    position: relative;
+    top: 30%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
@@ -99,6 +92,18 @@ input.btn {
 .btn-success:hover {
     background-color: rgba(21, 144, 125, 0.9) !important;
     border-color: rgb(8, 61, 53) !important;
+}
+
+.btn-cancel {
+    background-color: rgb(177, 8, 56) !important;
+    border-color: rgb(4, 29, 25) !important;
+    color: white !important;
+}
+
+.btn-cancel:hover {
+    background-color: rgb(226, 11, 72) !important;
+    border-color: rgba(4, 29, 25, 0.67) !important;
+    color: white !important;
 }
 
 .footer {
@@ -153,16 +158,19 @@ input.btn {
 }
 
 #join-dialog label {
-    color: rgba(1, 26, 34,1);
+    color: rgba(1, 26, 34, 1);
     display: block;
     text-align: center;
 }
-#join-dialog input{
+
+#join-dialog input {
     background-color: #dee2e6;
 }
+
 form input {
     background-color: #dee2e6 !important;
 }
+
 #join-dialog input.btn {
     margin-top: 15px;
 }
@@ -229,21 +237,24 @@ video {
     height: 180px;
 }
 
-.addCameraButton {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: 0 auto 10px auto;
-
-}
-
 /* xs ans md screen resolutions*/
 
-@media screen and (max-width: 991px) {
-    .vertical-center {
-        width: 85%;
-        padding-top: 10px;
-        top: 57%;
+@media screen and (max-width: 1024px) {
+    h1 {
+        font-size: 40px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    /*Camera name*/
+    #main-video p {
+        font-size: 26px;
+    }
+}
+
+@media all and (max-width: 425px) {
+    /*Camera name*/
+    #main-video p {
+        font-size: 20px;
     }
 }
