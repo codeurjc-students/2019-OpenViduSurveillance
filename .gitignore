@@ -26,3 +26,4 @@ OpenViduBackend/src/main/resources/application.properties
 .env
 *.pem
 .idea
+owncert
