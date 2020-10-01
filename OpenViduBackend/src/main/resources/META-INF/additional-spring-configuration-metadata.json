@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "OPENVIDU_URL",
+      "type": "java.lang.String",
+      "description": "Description for OPENVIDU_URL."
+    },
+    {
+      "name": "OPENVIDU_SECRET",
+      "type": "java.lang.String",
+      "description": "Description for OPENVIDU_SECRET."
+    }
+  ] }
