@@ -1,5 +1,4 @@
 ﻿import {Component, OnInit, OnDestroy, Input, Output, EventEmitter} from '@angular/core';
-import {Router, NavigationStart} from '@angular/router';
 import {Subscription} from 'rxjs';
 
 import {Alert, AlertType} from './alert.model';
@@ -16,9 +15,8 @@ export class AlertComponent implements OnInit, OnDestroy {
 
     alerts: Alert[] = [];
     alertSubscription: Subscription;
-    routeSubscription: Subscription;
 
-    constructor(private router: Router, private alertService: AlertService) {
+    constructor(private alertService: AlertService) {
     }
 
     ngOnInit() {
@@ -44,17 +42,16 @@ export class AlertComponent implements OnInit, OnDestroy {
             });
 
         // clear alerts on location change
-        this.routeSubscription = this.router.events.subscribe(event => {
-            if (event instanceof NavigationStart) {
-                this.alertService.clear(this.id);
-            }
-        });
+        // this.routeSubscription = this.router.events.subscribe(event => {
+        //     if (event instanceof NavigationStart) {
+        //         this.alertService.clear(this.id);
+        //     }
+        // });
     }
 
     ngOnDestroy() {
         // unsubscribe to avoid memory leaks
         this.alertSubscription.unsubscribe();
-        this.routeSubscription.unsubscribe();
     }
 
     removeAlert(alert: Alert) {
@@ -103,5 +100,11 @@ export class AlertComponent implements OnInit, OnDestroy {
     settings() {
         this.settingsOn.emit(true);
         console.log('Entering settings');
+        let settingsButton = document.getElementById('settingsButton');
+        if (settingsButton.className === 'fa fa-arrow-left') {
+            settingsButton.className = 'fa fa-cog';
+        } else {
+            settingsButton.className = 'fa fa-arrow-left'
+        }
     }
 }
