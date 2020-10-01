@@ -20,7 +20,10 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
-            <!--                </div>-->
+            <button class="btn btn-lg btn-success discover-button"
+                    (click)="(this.cameraService.discoverCameras(this.sessionId));loading=true">Discover local
+                cameras
+            </button>
         </div>
     </div>
     <div class="configuration-box new-camera" id="addCameras">
@@ -57,10 +60,11 @@
             cameraUrl,cameraName,true,
             true, cameraIp, cameraPort, cameraUser, cameraPassword)">Add selected camera
             </button>
-            <button (click)="cameraService.publishDemoCameras(sessionId)"
-                    class="btn btn-lg btn-success demoCamera-button">
-                Add demo cameras
-            </button>
+<!--            This button allows to add demo cameras for developing and testing reasons-->
+<!--            <button (click)="cameraService.publishDemoCameras(sessionId)"-->
+<!--                    class="btn btn-lg btn-success demoCamera-button">-->
+<!--                Add demo cameras-->
+<!--            </button>-->
         </ng-container>
         <ng-template #noPTZ>
             <mat-form-field>
@@ -75,10 +79,11 @@
             cameraUrl,cameraName,true,
             true)">Add selected camera
             </button>
-            <button (click)="cameraService.publishDemoCameras(sessionId)"
-                    class="btn btn-lg btn-success demoCamera-button">
-                Add demo cameras
-            </button>
+<!--            This button allows to add demo cameras for developing and testing reasons-->
+<!--            <button (click)="cameraService.publishDemoCameras(sessionId)"-->
+<!--                    class="btn btn-lg btn-success demoCamera-button">-->
+<!--                Add demo cameras-->
+<!--            </button>-->
         </ng-template>
     </div>
     <div class="configuration-box" id="deleteCameras">
@@ -99,7 +104,7 @@
         <ng-template #noCamerasLocal>
             <div class="noCamerasTemplate" *ngIf="!loading; else loadingGif">
                 <p> No cameras available at this moment </p>
-                <button class="btn btn-lg btn-success" id="discover-button"
+                <button class="btn btn-lg btn-success"
                         (click)="(this.cameraService.discoverCameras(this.sessionId));loading=true">Discover local
                     cameras
                 </button>

@@ -25,23 +25,23 @@ public class CamerasPTZController {
     private final CameraRepository cameraRepository;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
-    public CamerasPTZController(CameraRepository cameraRepository) {
+    public CamerasPTZController(CameraRepository cameraRepository, ArrayList<Camera> localCameras) {
         this.cameraRepository = cameraRepository;
+        this.localCameras = localCameras;
     }
-    public final ArrayList<Camera> localCameras = new ArrayList<>();
+    public final ArrayList<Camera> localCameras;
 
 
     @GetMapping("/{sessionName}/localCameras")
     public List<Camera> discoverCameras(@PathVariable String sessionName) {
-        Future future = discover(sessionName);
+        localCameras.clear();
+        Future future = discover(sessionName, localCameras);
         while (!future.isDone()) {
         }
-        System.out.println(cameraRepository.getCamerasBySessionAndData(sessionName, "localNetworkCamera"));
         return localCameras;
-
     }
 
-    public Future discover(String sessionName) {
+    public Future discover(String sessionName, ArrayList list) {
         return executor.submit(() -> {
             DiscoveryManager manager = new DiscoveryManager();
 
@@ -57,17 +57,14 @@ public class CamerasPTZController {
                     for (Device device : devices) {
                         System.out.println("Devices found: " + device.getHostName() + " " + device.getUsername());
                         Camera camera = new Camera(device.getHostName().substring(7), "localNetworkCamera", sessionName);
-                        if (!cameraRepository.existsCameraBySessionAndRtspUri(sessionName, device.getHostName().substring(7))) {
-                            System.out.println(camera);
-                            localCameras.add(camera);
-                        }
+                        list.add(camera);
                     }
                 }
             });
             try {
                 //Executor service sends the "done signal" before the discovering really finishes, so
                 // we wait for the discovery to really finish before sending the list of devices
-                Thread.sleep(10000);
+                Thread.sleep(12000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -96,20 +93,20 @@ public class CamerasPTZController {
         PtzDevices ptzDevices = onvifDevice.getPtz(); // get PTZ Devices
         switch (direction) {
             case "up":
-                for (int i = 0; i <= 2; i++) {
+                for (int i = 0; i <= 3; i++) {
                     ptzDevices.absoluteMove(profileToken, 0, 1, 1);
                 }
                 break;
             case "down":
-                for (int i = 0; i <= 2; i++)
+                for (int i = 0; i <= 3; i++)
                     ptzDevices.absoluteMove(profileToken, 0, -1, 1);
                 break;
             case "left":
-                for (int i = 0; i <= 2; i++)
+                for (int i = 0; i <= 3; i++)
                     ptzDevices.absoluteMove(profileToken, -1, 0, 1);
                 break;
             case "right":
-                for (int i = 0; i <= 2; i++)
+                for (int i = 0; i <= 3; i++)
                     ptzDevices.absoluteMove(profileToken, 1, 0, 1);
                 break;
         }

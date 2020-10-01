@@ -60,7 +60,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
                 .httpBasic();
     }
 
-    //Sample users, overwrite with your own
+    //Sample users, OVERWRITE WITH YOUR OWN
     @Override
     public void run(ApplicationArguments args) {
         User u = new User();

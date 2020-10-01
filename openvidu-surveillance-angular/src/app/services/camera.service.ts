@@ -108,6 +108,7 @@ export class CameraService {
 
     // Function to discover cameras via Backend, not in use right now
     discoverCameras(sessionID) {
+        this.availableIpCameras = null;
         let headers = new HttpHeaders({
             'Authorization': 'Basic ' + sessionStorage.getItem('token'),
             'Content-type': 'application/x-www-form-urlencoded',
