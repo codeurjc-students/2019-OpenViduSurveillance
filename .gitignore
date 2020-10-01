@@ -25,3 +25,4 @@ hs_err_pid*
 OpenViduBackend/src/main/resources/application.properties
 .env
 *.pem
+.idea
