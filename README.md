@@ -4,7 +4,7 @@
 With this web application you can create sessions where you can stream video from IP cameras in real time through RTSP ( Real time streaming protocol ).
 
 ## How do i use it ?
-First of all, go to where your app is deployed, by default, https://localhost:4200
+First of all, go to where your app is deployed, by default, http://localhost:4200
 Then you will see this screen 
 
 ![OVS Login](https://github.com/codeurjc-students/2019-OpenViduSurveillance/blob/master/Documentation/OpenViduSurveillanceLogin.png)
@@ -76,5 +76,5 @@ From inside the directory run
 ```
  docker-compose up --build
 ```
-This will build and deploy the app, then just go to, by default, https://localhost/4200
+This will build and deploy the app, then just go to, by default, http://localhost/4200
 
