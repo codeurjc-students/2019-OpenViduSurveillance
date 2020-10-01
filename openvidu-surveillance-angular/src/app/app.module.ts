@@ -8,22 +8,23 @@ import {UserVideoComponent} from './user-video.component';
 import {OpenViduVideoComponent} from './ov-video.component';
 import {CloseDialogComponent, HeaderComponent} from './header/header.component';
 import {FooterComponent} from './footer/footer.component';
-import {SessionInfoComponent} from './session-info/session-info.component';
+import {SessionCamerasComponent} from './session-cameras/session-cameras.component';
 import {MatListModule} from '@angular/material/list';
 import {MatCardModule} from '@angular/material/card';
 import {AdministrationPanelComponent, DeleteDialogComponent} from './administration-panel/administration-panel.component';
-import { MainCameraComponent } from './main-camera/main-camera.component';
+import {MainCameraComponent} from './main-camera/main-camera.component';
 import {MatSelectModule} from '@angular/material/select';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { AppRoutingModule } from './app-routing.module';
 import {APP_BASE_HREF} from '@angular/common';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
 
-import { AlertModule } from './_alert';
-
+import {AlertModule} from './_alert';
+import {MatTableModule} from '@angular/material/table';
+import {ClipboardModule} from '@angular/cdk/clipboard';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 
 @NgModule({
@@ -33,7 +34,7 @@ import { AlertModule } from './_alert';
         OpenViduVideoComponent,
         HeaderComponent,
         FooterComponent,
-        SessionInfoComponent,
+        SessionCamerasComponent,
         AdministrationPanelComponent,
         MainCameraComponent,
         CloseDialogComponent,
@@ -50,10 +51,12 @@ import { AlertModule } from './_alert';
         HttpClientModule,
         ReactiveFormsModule,
         MatSelectModule,
-        AppRoutingModule,
         MatIconModule,
         MatButtonModule,
-        AlertModule
+        AlertModule,
+        MatTableModule,
+        ClipboardModule,
+        MatSlideToggleModule
     ],
     /*This line is needed for the popup dialog to work properly because of Ivy disabled*/
     entryComponents: [CloseDialogComponent, DeleteDialogComponent],

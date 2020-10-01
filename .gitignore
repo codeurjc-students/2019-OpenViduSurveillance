@@ -23,3 +23,5 @@
 hs_err_pid*
 /openvidu-surveillance-angular/.idea/
 OpenViduBackend/src/main/resources/application.properties
+.env
+*.pem
