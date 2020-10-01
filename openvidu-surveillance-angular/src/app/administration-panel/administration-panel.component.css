@@ -1,7 +1,7 @@
+/*Titles*/
 h1, h2, h3, h4 {
     font-family: 'Libre Baskerville', serif;
     font-weight: 700;
-    font-size: 45px;
     color: #1d1a1a;
     font-size: 32px;
 }
@@ -10,19 +10,7 @@ h1 {
     font-size: 45px;
 }
 
-.addCameraButton {
-    margin-bottom: 25px;
-}
-.local-cameras {
-    width: 50%;
-    margin: 0 auto;
-    text-align: center;
-}
-.add-camera {
-    width: 50%;
-    margin: 0 auto;
-    text-align: center;
-}
+/*Section container*/
 .configuration-box {
 
     width: 50%;
@@ -30,22 +18,126 @@ h1 {
     text-align: center;
 
 }
+
 .new-camera {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
     justify-content: center;
-    width: 25%;
-}
-.grid {
-    display: grid;
-    grid-template-areas: "local" "addCamera";
-    grid-template-rows: 1fr 1fr;
-    height: 80%;
 }
 
+.grid {
+    display: grid;
+    grid-template-areas: "configureCameras" "addCameras";
+    grid-template-rows: 1fr 1fr;
+    height: 85%;
+}
+
+/*General display*/
 #up-grid {
     display: grid;
-    grid-template-areas: "local" "deleteCamera";
-    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "localCameras addCameras deleteCameras";
+    grid-template-columns: 1fr 2fr 1fr;
+}
+
+/*Buttons*/
+button {
+    width: 100%;
+    font-size: 15px;
+    white-space: normal;
+    min-width: fit-content;
+}
+
+.demoCamera-button {
+    margin-top: 15px;
+}
+
+/*Sections*/
+#localCamerasTable {
+    display: inline-block;
+    max-height: 250px;
+    overflow: auto;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    color: white;
+}
+
+#tableHeader {
+    font-size: inherit;
+    background-color: #1f6f61;
+    font-weight: bold;
+    color: white;
+}
+
+#tableData {
+    font-size: inherit;
+    background-color: rgba(87, 123, 98, 0.6);
+    font-weight: bold;
+    color: #1d1a1a;
+    text-align: center;
+    border-bottom-color: black !important;
+}
+
+#copyButton {
+    cursor: pointer;
+    float: right;
+}
+
+/*Slider colors*/
+/deep/ .mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+    background-color: #577B62 !important;
+}
+
+/deep/ .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
+    background-color: #232728 !important;
+}
+
+#load-local-gif {
+    width: 100%;
+}
+
+/*Responsive layout*/
+@media all and (max-width: 1024px) {
+    /*Titles*/
+    h1 {
+        font-size: 30px;
+    }
+
+    h2, h3, h4 {
+        font-size: 20px;
+    }
+
+    /*Vertical layout*/
+    #up-grid {
+        display: block;
+    }
+}
+
+@media all and (max-width: 768px) {
+    /*Titles*/
+    h1 {
+        font-size: 25px;
+    }
+
+    h2, h3, h4 {
+        font-size: 18px;
+    }
+
+    .configuration-box {
+
+        width: 50%;
+        margin: 25px auto 70px auto;
+        text-align: center;
+
+    }
+}
+
+@media all and (max-width: 425px) {
+    /*Titles*/
+    h1 {
+        font-size: 22px;
+    }
+
+    h2, h3, h4 {
+        font-size: 20px;
+    }
 }
