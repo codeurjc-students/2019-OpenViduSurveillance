@@ -83,12 +83,12 @@ export class AppComponent implements OnDestroy {
                 })
             ).subscribe(isValid => {
             if (isValid) {
-                this.alertService.success('Welcome ' + this.userName);
                 sessionStorage.setItem(
                     'token',
                     btoa(this.userName + ':' + this.password)
                 );
                 this.logged = true;
+                this.alertService.success('Welcome ' + this.userName);
             } else {
                 this.alertService.error('Username or password incorrect');
             }

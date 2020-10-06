@@ -93,20 +93,15 @@ public class CamerasPTZController {
         PtzDevices ptzDevices = onvifDevice.getPtz(); // get PTZ Devices
         switch (direction) {
             case "up":
-                for (int i = 0; i <= 3; i++) {
                     ptzDevices.absoluteMove(profileToken, 0, 1, 1);
-                }
                 break;
             case "down":
-                for (int i = 0; i <= 3; i++)
                     ptzDevices.absoluteMove(profileToken, 0, -1, 1);
                 break;
             case "left":
-                for (int i = 0; i <= 3; i++)
                     ptzDevices.absoluteMove(profileToken, -1, 0, 1);
                 break;
             case "right":
-                for (int i = 0; i <= 3; i++)
                     ptzDevices.absoluteMove(profileToken, 1, 0, 1);
                 break;
         }

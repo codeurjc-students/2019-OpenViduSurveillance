@@ -1,5 +1,7 @@
 package urjc.ovback.entity;
 
+import urjc.ovback.controller.SessionController;
+
 import javax.persistence.*;
 
 @Entity

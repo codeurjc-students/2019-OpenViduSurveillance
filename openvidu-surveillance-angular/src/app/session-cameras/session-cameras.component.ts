@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Session} from '../interfaces/session';
 import {StreamManager} from 'openvidu-browser';
 import {CameraService} from '../services/camera.service';
 
@@ -11,7 +10,6 @@ import {CameraService} from '../services/camera.service';
 })
 export class SessionCamerasComponent {
     @Input() sessionId: string;
-    session: Session;
     @Input() subscribers: StreamManager[] = [];
 
     constructor(public cameraService: CameraService) {

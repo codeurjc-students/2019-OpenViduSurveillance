@@ -7,7 +7,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {AlertService} from '../_alert';
 
 @Component({
-    selector: 'app-demo-cameras',
+    selector: 'app-administration-panel',
     templateUrl: './administration-panel.component.html',
     styleUrls: ['./administration-panel.component.css']
 })

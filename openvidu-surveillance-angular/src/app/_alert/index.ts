@@ -1,3 +1,3 @@
 export * from './alert.module';
-export * from './alert.service';
-export * from './alert.model';
+export * from '../services/alert.service';
+export * from '../models/alert.model';

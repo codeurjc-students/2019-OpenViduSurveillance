@@ -5,8 +5,8 @@ package urjc.ovback.controller;
 import urjc.ovback.entity.Camera;
 import urjc.ovback.error.CameraAlreadyInSessionException;
 import urjc.ovback.repository.CameraRepository;
+import urjc.ovback.repository.UserRepository;
 import urjc.ovback.security.Encoder;
-import urjc.ovback.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -52,14 +52,14 @@ public class SessionController {
     @Value("${OPENVIDU_URL}")
     private String OPENVIDU_URL;
 
-    public SessionController(CameraRepository cameraRepository, Encoder encoder, UserService userService) {
+    public SessionController(CameraRepository cameraRepository, Encoder encoder, UserRepository userRepository) {
         this.cameraRepository = cameraRepository;
         this.encoder = encoder;
-        this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     final CameraRepository cameraRepository;
-    final UserService userService;
+    final UserRepository userRepository;
 
     private final Encoder encoder;
 
@@ -276,4 +276,5 @@ public class SessionController {
             httpServletResponse.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage() + " '" + sessionId + "'");
         }
     }
+
 }

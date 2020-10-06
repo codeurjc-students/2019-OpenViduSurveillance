@@ -32,7 +32,7 @@
             <app-header [session]="true" (settingsOn)="toSettings()"
                         (activeSession)="logOut($event)" [logged]="true"></app-header>
             <div class="demo-cameras" *ngIf="headerSettingsOn; else mainScreen">
-                <app-demo-cameras [sessionId]="mySessionId" [subscribers]="subscribers"></app-demo-cameras>
+                <app-administration-panel [sessionId]="mySessionId" [subscribers]="subscribers"></app-administration-panel>
             </div>
 
             <ng-template #mainScreen>

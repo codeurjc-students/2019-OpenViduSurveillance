@@ -1,5 +1,6 @@
 package urjc.ovback.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -7,6 +8,8 @@ import javax.persistence.Id;
 public class User {
     @Id
     private int id;
+
+    @Column(unique = true, nullable = false)
     private String userName;
     private String password;
 
