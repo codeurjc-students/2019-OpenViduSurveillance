@@ -4,7 +4,7 @@
 With this web application you can create sessions where you can stream video from IP cameras in real time through RTSP ( Real time streaming protocol ).
 
 ## How do i use it ?
-First of all, go to where your app is deployed, by default, http://localhost:4200
+To access the visual interface, just go from your browser to where your OpenVidu Surveillance application is deployed. If you're developing the app, by default you can access the frontend at "http://localhost:4200"
 Then you will see this screen 
 
 ![OVS Login](https://github.com/codeurjc-students/2019-OpenViduSurveillance/blob/master/Documentation/OpenViduSurveillanceLogin.png)
@@ -76,5 +76,24 @@ From inside the directory run
 ```
  docker-compose up --build
 ```
-This will build and deploy the app, then just go to, by default, http://localhost/4200
+
+This will build and deploy the app.You can check [how to set up OpenVidu configuration](https://docs.openvidu.io/en/2.15.0/reference-docs/openvidu-config/) using an .env file.
+You should check these variables when setting up OpenVidu Surveillance:
+
+### OpenVidu
+- **DOMAIN_OR_PUBLIC_IP:** Domain name from where OpenVidu will be available, or the IP of the machine, if you don't have one.
+- **OPENVIDU_SECRET:** Secret used to connect to OpenVidu Server.
+
+### MySQL 
+- **MYSQL_DATABASE:** Name of your database.
+- **MYSQL_USER:** Name of the database user.
+- **MYSQL_PASSWORD:** Password of your user to access.
+
+### Spring Boot
+- **OPENVIDU_URL:** Where your OpenVidu is deployed. You can set it up like "https://openvidu-server-kms:PORT/" if you're deploying everything in the same machine.
+
+The rest of the Spring Boot variables are the same that you use in the application.properties of the backend ( URL, USERNAME, PASSWORD ).
+
+### Angular 
+- **OPENVIDUSURVEILLANCE_BACKEND_URL:** Where your backend is deployed. Same as before, if you're deploying everything in the same machine you can set it up like this "https://spring-service:PORT/
 
