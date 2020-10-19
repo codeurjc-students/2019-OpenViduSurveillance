@@ -217,7 +217,7 @@ public class SessionController {
         return jsonNode;
     }
 
-    //Method to simplify adding new cameras from the petition
+    //Method to simplify adding new cameras to OV session
     public String newCamera(String sessionId, @RequestBody Camera camera) {
         HttpPost request = new HttpPost(OPENVIDU_URL + "/api/sessions/" + sessionId + "/connection");
         request.setHeader(HttpHeaders.AUTHORIZATION,

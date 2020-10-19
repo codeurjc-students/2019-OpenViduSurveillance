@@ -10,7 +10,6 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.ssl.TrustStrategy;
 import org.junit.Test;
-
 import javax.net.ssl.SSLContext;
 import java.io.IOException;
 import java.security.KeyManagementException;
@@ -19,9 +18,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.TimeUnit;
 
 public class ApplicationTests {
-
+    //Put here your OpenVidu Server URL
     public String OPENVIDU_URL = "https://localhost:4443";
-    @Test
+
+    @Test()
     public void openViduServerConnection() {
         //Setting up the HttpClient for correct communication with OpenVidu-Server
         TrustStrategy trustStrategy = (chain, authType) -> true;
@@ -40,10 +40,10 @@ public class ApplicationTests {
         HttpGet httpGet = new HttpGet(OPENVIDU_URL);
         try {
             HttpResponse httpResponse = httpClient.execute(httpGet);
-
             assert (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK);
         } catch (IOException e) {
-            e.printStackTrace();
+            assert e == null;
         }
     }
+
 }
