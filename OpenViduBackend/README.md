@@ -35,31 +35,38 @@ This controller takes petitions to manage sessions and cameras.
 This method will get us information from the session named as "sessionId".
 
 #### @GetMapping("/newSession/{sessionId}")
-    public String start(@PathVariable String sessionId)
-With this method we will send a request to OpenVidu-Server to initialize a new session names as "sessionId".
+    public ResponseEntity start(@PathVariable String sessionId)
+With this method we will send a request to OpenVidu-Server to initialize a new session named as "sessionId". It will return us the status of the petition.
 
-#### @PostMapping("/session/{sessionId}/addIpCamera")
-    public String newCamera(@PathVariable String sessionId, @RequestBody IpCamera ipCamera)
-With this method we will send a request to OpenVidu-Server to add an IP camera to our session. This method takes a body JSON with the same parameters as described here : https://docs.openvidu.io/en/2.12.0/reference-docs/REST-API/#post-apisessionsltsession_idgtconnection 
+#### @PostMapping("/session/{sessionId}/camera")
+    public JsonNode addCamera(@RequestBody Camera camera, @PathVariable String sessionId)
+Adds a new camera using the requested url, after checking the url and the camera name. The url has to start with rtsp:// and the camera name can only be alphanumeric, without spaces and unique.
+
+#### @DeleteMapping("/session/{sessionId}/cameras/{cameraName}")
+    public void deleteCamera(@PathVariable String cameraName, @PathVariable String sessionId)
+This deletes a camera from the database and your session.
+
+#### @GetMapping("/session/{sessionId}/cameras")
+    public List<Camera> getCameras(@PathVariable String sessionId)
+This gives you a list of all the cameras attached to "sessionId".
     
 ### CamerasPTZController
 This controller takes care of cameras that you have total access to. 
 
-#### @PostMapping("/add")
-    public String addNewCamera(@RequestBody String url)
-Adds a new camera using the requested url.
-#### @PostMapping("/addDemoCameras")
-    public void addDemoCameras(@RequestBody String sessionName)
-Adds to the session some demo cameras just to try the app and the connection.
-####  @PostMapping("/discover")
-    public String  discoverCameras(@RequestBody String sessionName) 
-Discover cameras in you local network.
-####  @GetMapping("/localCameras")
-    public List<Camera> localCameras()
-Returns a list of discovered local cameras.
-#### @GetMapping("/discover/cam")
-    public void discoverCam()
-#### @PostMapping("/ptz/{hostIp}")
-    public boolean ptz(@RequestParam String user, @RequestParam String password, @PathVariable String hostIp)
-#### @PostMapping("/ptz/{hostIp}/{direction}")
-    public void ptzMovement(@RequestParam String user, @RequestParam String password, @PathVariable String hostIp, @PathVariable String direction)   
+#### @GetMapping("/{sessionName}/localCameras")
+    public List<Camera> discoverCameras(@PathVariable String sessionName) 
+Gets you a list of all the cameras available in your network.
+    
+#### @GetMapping("{sessionName}/cameras/{cameraName}/ptz")
+    public boolean ptzAvailable(@PathVariable String sessionName, @PathVariable String cameraName)
+This method returns true if PTZ functions are available in the camera that goes by the name in the url.
+    
+#### @GetMapping("{sessionName}/cameras/{cameraName}/{direction}")
+    public void ptzMovement(@PathVariable String sessionName, @PathVariable String cameraName, @PathVariable String direction)
+This method moves the camera named as the variable "cameraName". Direction can be "up", "down", "left" or "right".
+
+### Repository
+In this package we can find CameraRepository and UserRepository. This repositories enable us to work with the database from the backend. 
+
+### Security
+Here we can find our security configuration. There are some user established as default, so when you use this app for your need **delete them and use your own**, as this information is public. 
