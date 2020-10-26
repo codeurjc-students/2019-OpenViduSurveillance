@@ -18,6 +18,8 @@ spring.datasource.username=YOUR_DB_USERNAME
 spring.datasource.password=YOUR_DB_PASSWORD
 ```
 
+Be aware that you'll need the [ONVIF external library](https://github.com/milg0/onvif-java-lib/tree/master/release) to make the backend work. You can find more information about the library [here](http://www.milgo.de/onvif/java-library/create-connection).
+
 ## Entities
 ### Camera
 This entity is used mostly to store cameras and to manage them inside the backend.
@@ -51,7 +53,7 @@ This deletes a camera from the database and your session.
 This gives you a list of all the cameras attached to "sessionId".
     
 ### CamerasPTZController
-This controller takes care of cameras that you have total access to. 
+This controller takes care of cameras that you have total access to.
 
 #### @GetMapping("/{sessionName}/localCameras")
     public List<Camera> discoverCameras(@PathVariable String sessionName) 
