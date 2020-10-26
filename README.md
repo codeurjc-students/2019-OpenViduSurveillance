@@ -57,6 +57,8 @@ To try this app like a developer, check the code, make some changes... you'll ne
 #### Start the Backend
 Make sure you have an active [MySQL](https://dev.mysql.com/downloads/) database running to use with this application. If you have trouble setting up MySQL you can check the docs [here](https://dev.mysql.com/doc/). Then you can run the backend as any Spring Boot app.
 
+You'll also need [**this external library**](https://github.com/milg0/onvif-java-lib/tree/master/release) . This library manages the PTZ operations with your local cameras, this library has to be added as an external library. You can find more about it [here](http://www.milgo.de/onvif/java-library/create-connection)
+
 #### Start the frontend
 To start the frontend you'll have to :
 
